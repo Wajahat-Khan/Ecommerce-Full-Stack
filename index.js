@@ -1,6 +1,7 @@
 const express = require('express')
 const app = express()
 app.use(express.json())
+const _ = require("lodash");
 const { Products } = require('./Models/products')
 const { Category } = require('./Models/category')
 const {Product_Category}=require('./Models/product_category')
@@ -26,6 +27,7 @@ app.get('/products/:id', async (req, res) => {
        final.push(await Products.findOne({where:{product_id: e.dataValues.product_id}}));
            
        });
+       final=_.sortBy(final,p=>p.product_id)
        res.send(final)
     ;
 });
