@@ -7,8 +7,23 @@ const { Category } = require('./Models/category')
 const {Product_Category}=require('./Models/product_category')
 
 app.get('/products', async (req, res) => {
+    if(!req.query.sort){
     const products = await Products.findAll();
-    res.send(JSON.stringify(products));
+    res.send(products);
+    }
+    else{
+        if(req.query.sort==="DESC"){
+        const products = await Products.findAll({
+            order:[['price','DESC']]
+        });
+        res.send(products);
+    }else{
+        const products = await Products.findAll({
+            order:[['price']]
+        });
+        res.send(products);
+    }
+    }
 });
 
 app.get('/categories', async (req, res) => {
@@ -18,7 +33,7 @@ app.get('/categories', async (req, res) => {
 app.get('/products/:id', async (req, res) => {
     const id=req.params.id;
     let final=[];
-
+ 
     await Product_Category.findAll(
         {attributes:['product_id'],where:{
             category_id:id
@@ -28,8 +43,8 @@ app.get('/products/:id', async (req, res) => {
            
        });
        final=_.sortBy(final,p=>p.product_id)
-       res.send(final)
-    ;
+       res.send(final);
+  
 });
 
 
