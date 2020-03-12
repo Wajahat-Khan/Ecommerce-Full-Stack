@@ -5,13 +5,15 @@ const _ = require("lodash");
 const { Products } = require('./Models/products')
 const { Category } = require('./Models/category')
 const {Product_Category}=require('./Models/product_category')
+const {Product_Attributes} = require('./Models/product_attribute')
 
 app.get('/products', async (req, res) => {
-    if(!req.query.sort){
+    let final=[];
+    if(!req.query.sort && !req.query.filter){
     const products = await Products.findAll();
     res.send(products);
     }
-    else{
+    else if (req.query.sort && !req.query.filter){
         if(req.query.sort==="DESC"){
         const products = await Products.findAll({
             order:[['price','DESC']]
@@ -24,12 +26,28 @@ app.get('/products', async (req, res) => {
         res.send(products);
     }
     }
+    else {
+        await Product_Attributes.findAll(
+            {attributes:['product_id'],where:{
+                attribute_value_id:parseInt(req.query.filter)
+            }}
+        ).map(async e=>{
+           final.push(await Products.findOne({where:{product_id: e.dataValues.product_id}}));     
+           });
+           if(req.query.sort){
+               if(req.query.sort==="DESC")
+                final=_.sortBy(final,p=>p.price).reverse();
+                else
+                final=_.sortBy(final,p=>p.price)
+                res.send(final)
+           }else{
+           final=_.sortBy(final,p=>p.product_id)
+           res.send(final)
+           }
+        }
 });
 
-app.get('/categories', async (req, res) => {
-    const categories = await Category.findAll();
-    res.send(JSON.stringify(categories));
-});
+
 app.get('/category/:id', async (req, res) => {
     const id=req.params.id;
     let final=[];
