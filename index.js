@@ -30,10 +30,10 @@ app.get('/categories', async (req, res) => {
     const categories = await Category.findAll();
     res.send(JSON.stringify(categories));
 });
-app.get('/products/:id', async (req, res) => {
+app.get('/category/:id', async (req, res) => {
     const id=req.params.id;
     let final=[];
- 
+    if(!req.query.sort){
     await Product_Category.findAll(
         {attributes:['product_id'],where:{
             category_id:id
@@ -42,9 +42,37 @@ app.get('/products/:id', async (req, res) => {
        final.push(await Products.findOne({where:{product_id: e.dataValues.product_id}}));
            
        });
-       final=_.sortBy(final,p=>p.product_id)
-       res.send(final);
-  
+    final=_.sortBy(final,p=>p.product_id)
+    res.send(final);
+    }
+    else{
+        if(req.query.sort==="DESC"){
+            await Product_Category.findAll(
+                {attributes:['product_id'],where:{
+                    category_id:id
+                }}
+            ).map(async e=>{
+               final.push(await Products.findOne({where:{product_id: e.dataValues.product_id}, order:[['price','DESC']]}));
+                   
+               });
+        final=_.sortBy(final,p=>p.price).reverse();
+        res.send(final);
+        }
+        else{
+            await Product_Category.findAll(
+                {attributes:['product_id'],where:{
+                    category_id:id
+                }}
+            ).map(async e=>{
+               final.push(await Products.findOne({where:{product_id: e.dataValues.product_id},order:[['price']]}));
+                   
+               });
+               final=_.sortBy(final,p=>p.price)
+               res.send(final);
+            }
+       
+    }
+    
 });
 
 
