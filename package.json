@@ -19,8 +19,10 @@
   },
   "homepage": "https://github.com/Wajahat-Khan/Ecommerce-Backend#readme",
   "dependencies": {
+    "cryptr": "^6.0.1",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.15",
     "pg": "^7.18.2",
     "pg-hstore": "^2.3.3",

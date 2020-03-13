@@ -59,7 +59,7 @@ Customers = sequelize.define('customer', {
     },
     shipping_region_id: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      allowNull: true,
       defaultValue: '1'
     },
     day_phone: {
