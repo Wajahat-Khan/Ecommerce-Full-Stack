@@ -11,8 +11,75 @@ const { Category } = require('./Models/category')
 const {Product_Category}=require('./Models/product_category')
 const {Product_Attributes} = require('./Models/product_attribute')
 const {sequelize}=require('./shared/dbConnection')
+const{Customers}=require('./Models/customer')
 
-app.get('/products', async (req, res) => {
+// JWT implementation
+const {secret}=require('./config.js')
+const {checkToken}= require('./middleware.js')
+let jwt = require('jsonwebtoken');
+
+
+let username="wajahat";
+let pass="hello";
+app.get('/', checkToken, async (req,res)=>{
+    res.json({
+        success: true,
+        message: 'Index page'
+      });
+})
+
+app.post('/login', (req,res)=>{
+    let username = req.body.username;
+    let password = req.body.password;
+    if (username && password) {
+        if (username === "wajahat" && password === "wajahat") {
+          let token = jwt.sign({username: username},
+            secret,
+            { expiresIn: '24h' // expires in 24 hours
+            }
+          );
+          // return the JWT token for the future API calls
+          res.json({
+            success: true,
+            message: 'Authentication successful!',
+            token: token
+          });
+        } else {
+          res.status(403).send({
+            success: false,
+            message: 'Incorrect username or password'
+          });
+        }
+      } else {
+        res.status(400).send({
+          success: false,
+          message: 'Authentication failed! Please check the request'
+        });
+      }
+    }
+)
+
+
+app.post('/signup', (req,res)=>{
+        Customers.create({
+            name: `${req.body.name}`,
+            email: `${req.body.email}`,
+            password: `${req.body.password}`
+        }).then(newUser=>{
+            res.send(newUser);
+        }).catch(err=>{
+            console.log(err);
+        })
+       
+})
+
+
+
+
+
+
+
+app.get('/products',checkToken, async (req, res) => {
     let final=[];
     if(!req.query.sort && !req.query.gender && !req.query.size && !req.query.color){
     const products = await Products.findAll();
