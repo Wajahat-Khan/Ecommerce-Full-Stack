@@ -18,7 +18,9 @@ const {secret}=require('./config.js')
 const {checkToken}= require('./middleware.js')
 let jwt = require('jsonwebtoken');
 
-
+// ecnryption
+const Cryptr = require('cryptr');
+const cryptr = new Cryptr('myTotalySecretKey');
 
 
 app.post('/login', async (req,res)=>{
@@ -27,8 +29,8 @@ app.post('/login', async (req,res)=>{
     Customers.findOne({attributes:['password'],where:{
         name:req.body.username
     }}).then(p=>{
-       
-        if(p.password===req.body.password){
+        const pass = cryptr.decrypt(p.password);
+        if(pass===req.body.password){
             let token = jwt.sign({username: req.body.username},
                 secret,
                 { expiresIn: '24h' // expires in 24 hours
@@ -64,7 +66,7 @@ app.post('/signup', (req,res)=>{
         Customers.create({
             name: `${req.body.name}`,
             email: `${req.body.email}`,
-            password: `${req.body.password}`
+            password: cryptr.encrypt(`${req.body.password}`) 
         }).then(newUser=>{
             res.send(newUser);
         }).catch(err=>{
