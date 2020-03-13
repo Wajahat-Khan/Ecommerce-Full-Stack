@@ -21,12 +21,6 @@ let jwt = require('jsonwebtoken');
 
 let username="wajahat";
 let pass="hello";
-app.get('/', checkToken, async (req,res)=>{
-    res.json({
-        success: true,
-        message: 'Index page'
-      });
-})
 
 app.post('/login', (req,res)=>{
     let username = req.body.username;
