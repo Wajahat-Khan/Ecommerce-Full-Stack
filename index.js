@@ -22,34 +22,48 @@ let jwt = require('jsonwebtoken');
 let username="wajahat";
 let pass="hello";
 
-app.post('/login', (req,res)=>{
-    let username = req.body.username;
-    let password = req.body.password;
-    if (username && password) {
-        if (username === "wajahat" && password === "wajahat") {
-          let token = jwt.sign({username: username},
-            secret,
-            { expiresIn: '24h' // expires in 24 hours
-            }
-          );
-          // return the JWT token for the future API calls
-          res.json({
-            success: true,
-            message: 'Authentication successful!',
-            token: token
-          });
-        } else {
-          res.status(403).send({
-            success: false,
-            message: 'Incorrect username or password'
-          });
+app.post('/login', async (req,res)=>{
+    let check=false;
+    let temp='';
+    let user='';
+    let pass=''
+    try{
+    user = req.body.username;
+    pass = req.body.password;
+    } catch(e){}
+    if (user && pass) {
+    Customers.findOne({attributes:['password'],where:{
+        name:user
+    }}).then(p=>{
+ 
+        if(p.password===pass){
+            let token = jwt.sign({username: username},
+                secret,
+                { expiresIn: '24h' // expires in 24 hours
+                }
+              );
+              // return the JWT token for the future API calls
+              res.json({
+                success: true,
+                message: 'Authentication successful!',
+                token: token
+              });
+        }else{
+            res.status(403).send({
+                success: false,
+                message: 'Incorrect username or password'
+              });
         }
-      } else {
-        res.status(400).send({
-          success: false,
-          message: 'Authentication failed! Please check the request'
-        });
-      }
+       
+    });
+}
+else{
+    res.status(400).send({
+        success: false,
+        message: 'Authentication failed! Please check the request'
+      });
+}
+
     }
 )
 
