@@ -19,25 +19,17 @@ const {checkToken}= require('./middleware.js')
 let jwt = require('jsonwebtoken');
 
 
-let username="wajahat";
-let pass="hello";
+
 
 app.post('/login', async (req,res)=>{
-    let check=false;
-    let temp='';
-    let user='';
-    let pass=''
-    try{
-    user = req.body.username;
-    pass = req.body.password;
-    } catch(e){}
-    if (user && pass) {
+  
+    if (req.body.username && req.body.password) {
     Customers.findOne({attributes:['password'],where:{
-        name:user
+        name:req.body.username
     }}).then(p=>{
- 
-        if(p.password===pass){
-            let token = jwt.sign({username: username},
+       
+        if(p.password===req.body.password){
+            let token = jwt.sign({username: req.body.username},
                 secret,
                 { expiresIn: '24h' // expires in 24 hours
                 }
