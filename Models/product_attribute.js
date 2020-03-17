@@ -1,6 +1,6 @@
 "use strict";
 module.exports = (sequelize, DataTypes) => {
-  const product_attribute = sequelize.define(
+  const product_attributes = sequelize.define(
     "product_attributes",
     {
       product_id: {
@@ -22,8 +22,8 @@ module.exports = (sequelize, DataTypes) => {
     },
     {timestamps:false}
   );
-  product_attribute.associate = function(models) {
+  product_attributes.associate = function(models) {
     // associations can be defined here
   };
-  return product_attribute;
+  return product_attributes;
 };
