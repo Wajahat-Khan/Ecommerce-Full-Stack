@@ -22,7 +22,7 @@ let jwt = require('jsonwebtoken');
 const Cryptr = require('cryptr');
 const cryptr = new Cryptr('myTotalySecretKey');
 
-
+// Sign up api
 app.post('/signup', (req, res) => {
     customer.create({
         name: `${req.body.name}`,
@@ -36,7 +36,7 @@ app.post('/signup', (req, res) => {
 
 })
 
-
+// Log in api
 app.post('/login', async (req, res) => {
 
     if (req.body.username && req.body.password) {
@@ -77,6 +77,7 @@ app.post('/login', async (req, res) => {
 }
 )
 
+// products and filer api
 app.get('/products', async (req, res) => {
    
    let gender=[];
@@ -141,6 +142,8 @@ app.get('/products', async (req, res) => {
     }
 });
 
+
+// sort function
 function sort(prod, sort){
     if (sort!==null){
         console.log("o yeah")
@@ -157,6 +160,8 @@ else {
     return _.sortBy(prod, p => p.product_id);
 }
 }
+
+// filter function
 function filter(size,color,gender){
     if(size.length==0 && color.length==0 && gender.length==0){
         return 0;
@@ -184,6 +189,16 @@ function filter(size,color,gender){
         return _.intersection(size, color, gender);
     }
 }
+
+app.get('/products/:id', async(req,res)=>{
+    let pd=await productById(parseInt(req.params.id))
+    res.send(pd);
+})
+productById= id=>{
+   product.findOne({where:{product_id:id}}).then(p=> {return p});
+   
+}
+
 app.get('/category/:id', async (req, res) => {
     const id = req.params.id;
     let final = [];
