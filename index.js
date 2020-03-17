@@ -78,6 +78,7 @@ app.post('/login', async (req, res) => {
 )
 
 app.get('/products', async (req, res) => {
+   
    let gender=[];
    let size=[];
    let color=[];
@@ -136,10 +137,26 @@ app.get('/products', async (req, res) => {
         }
          let result=filter(size,color,gender);
         final.push(await product.findAll({ where: {  product_id: {[Op.in]: result} } }));
-      res.send(final)
+        res.send(sort(final[0],req.query.sort))
     }
 });
 
+function sort(prod, sort){
+    if (sort!==null){
+        console.log("o yeah")
+    if (sort =="DESC"){
+        console.log("coming DES")
+        return _.sortBy(prod, p => p.price).reverse();
+    }
+    else 
+    {
+        return _.sortBy(prod, p => p.price)
+    }
+}
+else {
+    return _.sortBy(prod, p => p.product_id);
+}
+}
 function filter(size,color,gender){
     if(size.length==0 && color.length==0 && gender.length==0){
         return 0;
