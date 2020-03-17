@@ -208,7 +208,13 @@ app.get('/category/:id', async (req, res) => {
     res.send(sort(prods,req.query.sort));
 });
 
-// 
+// api for search
+
+app.get('/', async (req,res)=>{
+    let qr='%'+req.query.q+ '%';
+    result= await product.findAll({where:{name:{[Op.like]: qr}}});
+    res.send(result);
+})
 
 
 
