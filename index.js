@@ -22,6 +22,93 @@ let jwt = require('jsonwebtoken');
 const Cryptr = require('cryptr');
 const cryptr = new Cryptr('myTotalySecretKey');
 
+
+
+// product by id function
+productById= async id=>{
+    let pd=await product.findOne({where:{product_id:parseInt(id)}});
+    return pd;
+    
+ }
+
+ // fetch all products 
+allProducts=  async ()=>{
+     let pds=await product.findAll();
+     return pds;  
+  }
+ // sort function
+sort =(prod, sort)=>{
+     if (sort !== undefined){
+     if (sort =="DESC"){
+         return _.sortBy(prod, p => p.price).reverse();
+     }
+     else 
+     {
+         console.log(sort)
+         return _.sortBy(prod, p => p.price)
+     }
+ }
+ else {
+     return _.sortBy(prod, p => p.product_id);
+ }
+ }
+ 
+ // filter function
+filter=(size,color,gender)=>{
+     if(size.length==0 && color.length==0 && gender.length==0){
+         return 0;
+     }
+     else  if(size.length==0 && color.length==0 && gender.length!=0){
+         console.log(gender)
+         return gender;
+     }
+     else  if(size.length==0 && color.length!=0 && gender.length==0){
+         return color;
+     }
+     else  if(size.length==0 && color.length!=0 && gender.length!=0){
+         return _.intersection(color, gender);
+     }
+     else  if(size.length!=0 && color.length==0 && gender.length==0){
+         return size;
+     }
+     else  if(size.length!=0 && color.length==0 && gender.length!=0){
+         return _.intersection(size, gender);
+     }
+     else  if(size.length!=0 && color.length!=0 && gender.length==0){
+         return _.intersection(size, color);
+     }
+     else  if(size.length!=0 && color.length!=0 && gender.length!=0){
+         return _.intersection(size, color, gender);
+     }
+ }
+ 
+prodAttributes= async (id) =>{
+    let temp=[]
+    await product_attributes.findAll(
+        {
+            attributes: ['product_id'], where: {
+                attribute_value_id: parseInt(id)
+            }
+        }
+    ).map(e => {
+        
+        temp.push(e.dataValues.product_id);
+    });
+    return temp;
+}
+prodByCategory = async (id) =>{
+    let temp=[]
+    await product_categories.findAll(
+        {
+            attributes: ['product_id'], where: {
+                category_id: parseInt(id)
+            }
+        }
+    ).map(async e => {
+        temp.push(await product.findOne({ where: { product_id: e.dataValues.product_id } }));
+    });
+    return temp;
+}
 // Sign up api
 app.post('/signup', (req, res) => {
     customer.create({
@@ -66,6 +153,11 @@ app.post('/login', async (req, res) => {
                 });
             }
 
+        }).catch(e=>{
+            res.status(400).send({
+                success: false,
+                message: 'User not found'
+            });
         });
     }
     else {
@@ -79,176 +171,46 @@ app.post('/login', async (req, res) => {
 
 // products and filer api
 app.get('/products', async (req, res) => {
-   
    let gender=[];
    let size=[];
    let color=[];
    let final = [];
-    if (!req.query.sort && !req.query.gender && !req.query.size && !req.query.color) {
-        const products = await product.findAll();
-        res.send(products);
-    }
-    else if (req.query.sort && !req.query.gender && !req.query.size && !req.query.color) {
-        if (req.query.sort === "DESC") {
-            const products = await product.findAll({
-                order: [['price', 'DESC']]
-            });
-            res.send(products);
-        } else {
-            const products = await product.findAll({
-                order: [['price']]
-            });
-            res.send(products);
-        }
+    if (!req.query.gender && !req.query.size && !req.query.color) {
+        const products = await allProducts();
+        res.send(sort(products,req.query.sort))
     }
     else {
-        if (req.query.gender) {
-           await product_attributes.findAll(
-                {
-                    attributes: ['product_id'], where: {
-                        attribute_value_id: parseInt(req.query.gender)
-                    }
-                }
-            ).map(e => {
-                
-                gender.push(e.dataValues.product_id);
-            });
+        if (req.query.gender != undefined) {
+           gender=await prodAttributes(req.query.gender);
         }
-        if (req.query.size) {
-            await product_attributes.findAll(
-                {
-                    attributes: ['product_id'], where: {
-                        attribute_value_id: parseInt(req.query.size)
-                    }
-                }
-            ).map(e => {
-                size.push(e.dataValues.product_id);
-            });
+        if (req.query.size != undefined) {
+            size= await prodAttributes(req.query.size);
         }
-        if (req.query.color) {
-           await product_attributes.findAll(
-                {
-                    attributes: ['product_id'], where: {
-                        attribute_value_id: parseInt(req.query.color)
-                    }
-                }
-            ).map(e => {
-                color.push(e.dataValues.product_id);
-            });
+        if (req.query.color != undefined) {
+            color=await prodAttributes(req.query.color);   
         }
-         let result=filter(size,color,gender);
+        let result=filter(size,color,gender);
         final.push(await product.findAll({ where: {  product_id: {[Op.in]: result} } }));
         res.send(sort(final[0],req.query.sort))
     }
 });
 
-
-// sort function
-function sort(prod, sort){
-    if (sort!==null){
-        console.log("o yeah")
-    if (sort =="DESC"){
-        console.log("coming DES")
-        return _.sortBy(prod, p => p.price).reverse();
-    }
-    else 
-    {
-        return _.sortBy(prod, p => p.price)
-    }
-}
-else {
-    return _.sortBy(prod, p => p.product_id);
-}
-}
-
-// filter function
-function filter(size,color,gender){
-    if(size.length==0 && color.length==0 && gender.length==0){
-        return 0;
-    }
-    else  if(size.length==0 && color.length==0 && gender.length!=0){
-        console.log(gender)
-        return gender;
-    }
-    else  if(size.length==0 && color.length!=0 && gender.length==0){
-        return color;
-    }
-    else  if(size.length==0 && color.length!=0 && gender.length!=0){
-        return _.intersection(color, gender);
-    }
-    else  if(size.length!=0 && color.length==0 && gender.length==0){
-        return size;
-    }
-    else  if(size.length!=0 && color.length==0 && gender.length!=0){
-        return _.intersection(size, gender);
-    }
-    else  if(size.length!=0 && color.length!=0 && gender.length==0){
-        return _.intersection(size, color);
-    }
-    else  if(size.length!=0 && color.length!=0 && gender.length!=0){
-        return _.intersection(size, color, gender);
-    }
-}
-
+// product by id
 app.get('/products/:id', async(req,res)=>{
-    let pd=await productById(parseInt(req.params.id))
+    let pd= await  productById(req.params.id)
     res.send(pd);
-})
-productById= id=>{
-   product.findOne({where:{product_id:id}}).then(p=> {return p});
-   
-}
+});
 
+// products by category
 app.get('/category/:id', async (req, res) => {
     const id = req.params.id;
-    let final = [];
-    if (!req.query.sort) {
-        await product_categories.findAll(
-            {
-                attributes: ['product_id'], where: {
-                    category_id: id
-                }
-            }
-        ).map(async e => {
-            final.push(await product.findOne({ where: { product_id: e.dataValues.product_id } }));
-
-        });
-        final = _.sortBy(final, p => p.product_id)
-        res.send(final);
-    }
-    else {
-        if (req.query.sort === "DESC") {
-            await product_categories.findAll(
-                {
-                    attributes: ['product_id'], where: {
-                        category_id: id
-                    }
-                }
-            ).map(async e => {
-                final.push(await product.findOne({ where: { product_id: e.dataValues.product_id }, order: [['price', 'DESC']] }));
-
-            });
-            final = _.sortBy(final, p => p.price).reverse();
-            res.send(final);
-        }
-        else {
-            await product_categories.findAll(
-                {
-                    attributes: ['product_id'], where: {
-                        category_id: id
-                    }
-                }
-            ).map(async e => {
-                final.push(await product.findOne({ where: { product_id: e.dataValues.product_id }, order: [['price']] }));
-
-            });
-            final = _.sortBy(final, p => p.price)
-            res.send(final);
-        }
-
-    }
-
+    prods=await prodByCategory(id);
+    res.send(sort(prods,req.query.sort));
 });
+
+// 
+
+
 
 
 const port = 3000;
