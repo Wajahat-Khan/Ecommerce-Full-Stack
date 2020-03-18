@@ -1,25 +1,29 @@
-const {sequelize}=require('../shared/dbConnection')
-const { DataTypes } = require("sequelize");
-
-
-Product_Category = sequelize.define('product_category', {
-    product_id: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      primaryKey: true
+"use strict";
+module.exports = (sequelize, DataTypes) => {
+  const product_categories = sequelize.define(
+    "product_categories",
+    {
+      product_id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        references: {
+          model: "Products",
+          key: "product_id"
+        }
+      },
+      category_id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+          model: "Categorys",
+          key: "category_id"
+        }
+      }
     },
-    category_id: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      primaryKey: true
-    }
-  }, {
-    freezeTableName: true,
-    paranoid: true
-  });
-
-
-
-
-
-module.exports={Product_Category}
+    {timestamps:false}
+  );
+  product_categories.associate = function(models) {
+    // associations can be defined here
+  };
+  return product_categories;
+};
