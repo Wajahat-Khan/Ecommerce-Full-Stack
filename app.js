@@ -1,18 +1,24 @@
-const http=require('http')
 
-const server=http.createServer((req,res)=>{
-    if(req.url==='/'){
-        res.write('Home page');
-        res.end();
-    }
+var express = require('express');
 
-    if(req.url==='/about'){
-        res.write('About page');
-        res.end();
-    }
 
-})
+var LandingPage = require('./routes/index');
+var productsRouter = require('./routes/productsRouter');
+var categoryRouter = require('./routes/categoryRouter');
+var signupRouter = require('./routes/signupRouter');
+var loginRouter = require('./routes/loginRouter');
+var app = express();
 
-server.listen(3000,()=>{
-    console.log('Listening to port 3000')
-})
+app.use(express.json());
+
+
+app.use('/', LandingPage);
+app.use('/login', loginRouter);
+app.use('/signup', signupRouter);
+app.use('/products', productsRouter);
+app.use('/category', categoryRouter);
+
+
+
+
+module.exports = app;

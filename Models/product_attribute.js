@@ -23,7 +23,7 @@ module.exports = (sequelize, DataTypes) => {
     {timestamps:false}
   );
   product_attributes.associate = function(models) {
-    // associations can be defined here
-  };
+    
+    };
   return product_attributes;
 };

@@ -1,23 +1,10 @@
 {
-  "name": "ecommerce-backend",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "name": "fs",
+  "version": "0.0.0",
+  "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "server": "nodemon index.js"
+    "start": "nodemon ./bin/www"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Wajahat-Khan/Ecommerce-Backend.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/Wajahat-Khan/Ecommerce-Backend/issues"
-  },
-  "homepage": "https://github.com/Wajahat-Khan/Ecommerce-Backend#readme",
   "dependencies": {
     "cryptr": "^6.0.1",
     "dotenv": "^8.2.0",

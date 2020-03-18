@@ -20,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
     {timestamps:false}
   );
   product.associate = function(models) {
-    // associations can be defined here
+    product.hasMany(models.product_attributes,{ foreignKey: 'product_id'});
   };
   return product;
 };

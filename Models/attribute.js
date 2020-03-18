@@ -1,7 +1,7 @@
 "use strict";
 module.exports = (sequelize, DataTypes) => {
-  const attribute = sequelize.define(
-    "Attribute",
+  const attributes = sequelize.define(
+    "attributes",
     {
       attribute_id: {
         type: DataTypes.INTEGER,
@@ -12,8 +12,8 @@ module.exports = (sequelize, DataTypes) => {
     },
     {timestamps:false}
   );
-  attribute.associate = function(models) {
+  attributes.associate = function(models) {
     // associations can be defined here
   };
-  return attribute;
+  return attributes;
 };

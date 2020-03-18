@@ -1,5 +1,6 @@
+require('dotenv').config();
 let jwt = require('jsonwebtoken');
-const config = require('./config.js');
+const key = `${process.env.SECRET_JWT}`;
 
 let checkToken = (req, res, next) => {
   let token = req.headers['x-access-token'] || req.headers['authorization']; // Express headers are auto converted to lowercase
@@ -15,7 +16,7 @@ let checkToken = (req, res, next) => {
   }
 
   if (token) {
-    jwt.verify(token, config.secret, (err, decoded) => {
+    jwt.verify(token,key, (err, decoded) => {
       if (err) {
         return res.json({
           success: false,
