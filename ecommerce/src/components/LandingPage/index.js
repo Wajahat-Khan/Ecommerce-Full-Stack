@@ -2,6 +2,7 @@ import React from "react";
 import { withRouter } from "react-router-dom";
 import { connect } from 'react-redux';
 import {getConfigurations} from '../../js/actions';
+import { Navbar, Nav,NavDropdown,Form,FormControl,Button } from 'react-bootstrap';
 
 class LandingPage extends React.Component{
     constructor(props){
@@ -18,11 +19,24 @@ render(){
     const {attributes_values}=this.props;
     const {categories}=this.props;
     return(
-        <ul>
-  {categories.map(el => (
-      <li key={el.category_id}>{el.name}</li>
-    ))}
-  </ul>
+        <Navbar bg="light" expand="lg">
+  <Navbar.Brand href="#home">Full Stack Challenge</Navbar.Brand>
+  <Navbar.Toggle aria-controls="basic-navbar-nav" />
+  <Navbar.Collapse id="basic-navbar-nav">
+    <Nav className="mr-auto">
+      {
+          categories.map(c=>(
+            <Nav.Link href="#" key={c.category_id}>{c.name}</Nav.Link>
+          ))
+      }
+      <Nav.Link href="#">All Products</Nav.Link>
+    </Nav>
+    <Form inline>
+      <FormControl type="text" placeholder="Search" className="mr-sm-2" />
+      <Button variant="outline-success">Search</Button>
+    </Form>
+  </Navbar.Collapse>
+</Navbar>
     )
   }
 }

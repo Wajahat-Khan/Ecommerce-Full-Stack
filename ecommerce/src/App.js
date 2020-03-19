@@ -3,6 +3,8 @@ import './App.css';
 import { Route, BrowserRouter } from "react-router-dom";
 import store from "../src/js/store"
 import { Provider } from 'react-redux';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 import LandingPage from '../src/components/LandingPage';
 
