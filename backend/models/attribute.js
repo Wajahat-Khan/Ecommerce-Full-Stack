@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
     {timestamps:false}
   );
   attributes.associate = function(models) {
-    // associations can be defined here
+    attributes.hasMany(models.attribute_values,{ foreignKey: 'attribute_id'});
   };
   return attributes;
 };
