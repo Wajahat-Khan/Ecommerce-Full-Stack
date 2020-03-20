@@ -1,0 +1,28 @@
+.filters{
+margin-left: 2%;
+margin-bottom: 2%;
+}
+.filter-row{
+    border-bottom: 1px solid black;
+}
+.pagination{
+    margin: 2%;
+}
+.products{
+  width: 20%;
+  height: 15%;
+  margin: 2%;
+  overflow: hidden;
+  text-align: center;
+
+  
+}
+.product-image{
+    width: 130px;
+    height: 120px;
+}
+
+
+.header{
+    margin-left: 2%;
+}

@@ -9,6 +9,10 @@ const sagaMiddleware = createSagaMiddleware()
 
 const store = createStore(rootReducer, applyMiddleware(logger,sagaMiddleware));
 
+store.subscribe(()=>{
+    localStorage.setItem('token', JSON.stringify(store.getState().token))
+    localStorage.setItem('login', JSON.stringify(store.getState().login))
+  })
 sagaMiddleware.run(rootSaga);
 
 export default store;
