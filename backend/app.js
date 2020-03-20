@@ -1,6 +1,6 @@
 
 var express = require('express');
-
+var cors = require('cors');
 
 var LandingPage = require('./routes/index');
 var productsRouter = require('./routes/productsRouter');
@@ -10,7 +10,7 @@ var loginRouter = require('./routes/loginRouter');
 var app = express();
 
 app.use(express.json());
-
+app.use(cors())
 
 app.use('/', LandingPage);
 app.use('/login', loginRouter);
