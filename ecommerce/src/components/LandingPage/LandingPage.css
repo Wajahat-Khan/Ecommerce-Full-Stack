@@ -2,6 +2,11 @@
 margin-left: 2%;
 margin-bottom: 2%;
 }
+.sort{
+    margin-left: 4%;
+    margin-bottom: 2%;
+    
+}
 .filter-row{
     border-bottom: 1px solid black;
 }
@@ -21,8 +26,9 @@ margin-bottom: 2%;
     width: 130px;
     height: 120px;
 }
-
-
 .header{
     margin-left: 2%;
+}
+.clear{
+    background-color: crimson;
 }

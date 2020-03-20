@@ -10,7 +10,7 @@ router.get('/', async (req, res) => {
     let Color = [];
     if (!req.query.Gender && !req.query.Size && !req.query.Color) {
         const products = await allProducts(req.query.page);
-        res.send(sort(products, req.query.sort))
+        res.send(sort(products, req.query.Sort))
     }
     else {
         if (req.query.Gender != undefined) {
@@ -24,7 +24,7 @@ router.get('/', async (req, res) => {
         }
         let result = await filter(Size, Color, Gender);
         final = await filteredProds(result, req.query.page)
-        res.send(sort(final, req.query.sort))
+        res.send(sort(final, req.query.Sort))
     }
 });
 

@@ -3,7 +3,8 @@ import * as constants from '../constants';
 
 const API = {
     getProducts : load => {
-        
+        console.log("payload")
+        console.log(load)
         return axios
             .get(constants.url + 'products',{params:load})
             .then(response => {

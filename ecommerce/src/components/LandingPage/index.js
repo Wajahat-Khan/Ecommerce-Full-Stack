@@ -12,53 +12,53 @@ class LandingPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = { products: [], activePage: 1, pages: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-    Gender:undefined, Color:undefined, Size:undefined,sort:undefined };
+    Gender:undefined, Color:undefined, Size:undefined,Sort:undefined };
   }
 
   componentDidMount = () => {
     this.props.getConfigurations();
   }
   pagination = e => {
-    const {Gender, Color, Size} = this.state;
+    const {Gender, Color, Size, Sort} = this.state;
     let page=parseInt(e.target.text);
       this.setState({activePage:page});
-      this.props.getProducts({page,Gender, Color, Size})
+      this.props.getProducts({page,Gender, Color, Size, Sort})
     
     };
     paginationNext= e => {
-      const {Gender, Color, Size} = this.state;
+      const {Gender, Color, Size, Sort} = this.state;
       let page=this.state.activePage + 1;
       this.setState({activePage:page});
-      this.props.getProducts({page,Gender, Color, Size})
+      this.props.getProducts({page,Gender, Color, Size, Sort})
       };
     paginationPrevious= e => {
-      const {Gender, Color, Size} = this.state;
+      const {Gender, Color, Size, Sort} = this.state;
       if(this.state.activePage>1) { 
       let page=this.state.activePage - 1;
         this.setState({activePage:page});
-        this.props.getProducts({page,Gender, Color, Size})
+        this.props.getProducts({page,Gender, Color, Size, Sort})
         }
       };
-
+  
       handleFilter= (ek,e)=>{
-        console.log(this.state)
+        console.log(e.target.id)
+        console.log(ek)
        if(ek=="clear"){
-         console.log(e.target.id)
-         console.log(ek)
          this.setState({ [e.target.id]: undefined },()=>{
           this.validateFilter();
         
         });
-       }else{
+       }
+       else{
         this.setState({ [e.target.id]: ek },()=>{
           this.validateFilter();
         });
       }
       }
       validateFilter=(v)=>{
-        const {Gender, Color, Size} = this.state;
+        const {Gender, Color, Size,Sort} = this.state;
         console.log(this.state)
-        this.props.getProducts({Gender, Color, Size})
+        this.props.getProducts({Gender, Color, Size, Sort})
       }
   render() {
     const { products } = this.props;
@@ -96,16 +96,17 @@ class LandingPage extends React.Component {
                   <Dropdown.Item   key={v.attribute_value_id} eventKey={v.attribute_value_id} id={f.name} >{v.value}</Dropdown.Item>
                 ))
                 }
-                <Dropdown.Item   key="clear" eventKey='clear' id={f.name} >Clear</Dropdown.Item>
+                <Dropdown.Item   key="clear" eventKey='clear' id={f.name} className="clear">Clear</Dropdown.Item>
               </DropdownButton>
             ))
           }
         
    
-          <h3 className="filters text-muted" >Sort</h3>
-          <DropdownButton  id="dropdown-basic-button" title="Sort By" variant="info" className="filters">
-            <Dropdown.Item >High Price</Dropdown.Item>
-            <Dropdown.Item >Low Price</Dropdown.Item>
+          <h3 className="sort text-muted" >Sort</h3>
+          <DropdownButton  id="dropdown-basic-button" title="Sort By" variant="info" className="filters" onSelect={this.handleFilter}>
+            <Dropdown.Item id="Sort" key="DESC" eventKey='DESC'>High Price</Dropdown.Item>
+            <Dropdown.Item id="Sort" key="AESC" eventKey='AESC'>Low Price</Dropdown.Item>
+            <Dropdown.Item id="Sort" key="clear" eventKey='clear' className="clear">Clear</Dropdown.Item>
 
           </DropdownButton>
           <Form inline className="filters">
