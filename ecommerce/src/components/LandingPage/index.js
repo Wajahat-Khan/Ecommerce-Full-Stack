@@ -11,7 +11,8 @@ import '../LandingPage/LandingPage.css'
 class LandingPage extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { products: [], activePage: 1, pages: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] };
+    this.state = { products: [], activePage: 1, pages: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+    gender:undefined, color:undefined, size:undefined,sort:undefined };
   }
 
   componentDidMount = () => {
@@ -36,6 +37,22 @@ class LandingPage extends React.Component {
         this.props.getProducts({page:temp})
         }
       };
+
+      handleFilter= e=>{
+        console.log(e)
+        // let temp=parseInt(e.target.id);
+        // let {gender,color,size}=this.state;
+        // if(gender===undefined && color===undefined && size===undefined){
+        //   gender=temp;
+        //   this.setState({gender})
+        //   this.props.getProducts({gender})
+        // }
+        // else if(gender != null, color===undefined && size===undefined){
+        //   color=temp;
+        //   this.setState({color})
+        //   this.props.getProducts({color})
+        // }
+      }
   render() {
     const { products } = this.props;
     const { attributes } = this.props;
@@ -67,9 +84,9 @@ class LandingPage extends React.Component {
           <h3 className="text-muted">Filters</h3>
           {
             attributes.map(f => (
-              <DropdownButton  key={f.attribute_id} title={f.name} variant="info" className="filters">
+              <DropdownButton  key={f.attribute_id} title={f.name} variant="info" className="filters" onSelect={this.handleFilter}>
                 {f.attribute_values.map(v => (
-                  <Dropdown.Item href="#/action-3" key={v.attribute_value_id}>{v.value}</Dropdown.Item>
+                  <Dropdown.Item  eventKey={v.attribute_value_id} id={v.attribute_value_id} >{v.value}</Dropdown.Item>
                 ))
                 }
               </DropdownButton>
