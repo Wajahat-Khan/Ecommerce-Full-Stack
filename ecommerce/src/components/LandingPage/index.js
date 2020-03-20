@@ -12,46 +12,53 @@ class LandingPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = { products: [], activePage: 1, pages: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-    gender:undefined, color:undefined, size:undefined,sort:undefined };
+    Gender:undefined, Color:undefined, Size:undefined,sort:undefined };
   }
 
   componentDidMount = () => {
     this.props.getConfigurations();
   }
   pagination = e => {
-    let temp=parseInt(e.target.text);
-      this.setState({activePage:temp});
-      this.props.getProducts({page:temp})
+    const {Gender, Color, Size} = this.state;
+    let page=parseInt(e.target.text);
+      this.setState({activePage:page});
+      this.props.getProducts({page,Gender, Color, Size})
     
     };
     paginationNext= e => {
-      let temp=this.state.activePage + 1;
-     
-      this.setState({activePage:temp});
-      this.props.getProducts({page:temp})
+      const {Gender, Color, Size} = this.state;
+      let page=this.state.activePage + 1;
+      this.setState({activePage:page});
+      this.props.getProducts({page,Gender, Color, Size})
       };
     paginationPrevious= e => {
+      const {Gender, Color, Size} = this.state;
       if(this.state.activePage>1) { 
-      let temp=this.state.activePage - 1;
-        this.setState({activePage:temp});
-        this.props.getProducts({page:temp})
+      let page=this.state.activePage - 1;
+        this.setState({activePage:page});
+        this.props.getProducts({page,Gender, Color, Size})
         }
       };
 
-      handleFilter= e=>{
-        console.log(e)
-        // let temp=parseInt(e.target.id);
-        // let {gender,color,size}=this.state;
-        // if(gender===undefined && color===undefined && size===undefined){
-        //   gender=temp;
-        //   this.setState({gender})
-        //   this.props.getProducts({gender})
-        // }
-        // else if(gender != null, color===undefined && size===undefined){
-        //   color=temp;
-        //   this.setState({color})
-        //   this.props.getProducts({color})
-        // }
+      handleFilter= (ek,e)=>{
+        console.log(this.state)
+       if(ek=="clear"){
+         console.log(e.target.id)
+         console.log(ek)
+         this.setState({ [e.target.id]: undefined },()=>{
+          this.validateFilter();
+        
+        });
+       }else{
+        this.setState({ [e.target.id]: ek },()=>{
+          this.validateFilter();
+        });
+      }
+      }
+      validateFilter=(v)=>{
+        const {Gender, Color, Size} = this.state;
+        console.log(this.state)
+        this.props.getProducts({Gender, Color, Size})
       }
   render() {
     const { products } = this.props;
@@ -86,9 +93,10 @@ class LandingPage extends React.Component {
             attributes.map(f => (
               <DropdownButton  key={f.attribute_id} title={f.name} variant="info" className="filters" onSelect={this.handleFilter}>
                 {f.attribute_values.map(v => (
-                  <Dropdown.Item  eventKey={v.attribute_value_id} id={v.attribute_value_id} >{v.value}</Dropdown.Item>
+                  <Dropdown.Item   key={v.attribute_value_id} eventKey={v.attribute_value_id} id={f.name} >{v.value}</Dropdown.Item>
                 ))
                 }
+                <Dropdown.Item   key="clear" eventKey='clear' id={f.name} >Clear</Dropdown.Item>
               </DropdownButton>
             ))
           }

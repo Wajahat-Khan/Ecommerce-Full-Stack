@@ -5,24 +5,24 @@ const { checkToken } = require('../middlewares/authMiddleware');
 
 // all products with paginations, filtering and sorting
 router.get('/', async (req, res) => {
-    let gender = [];
-    let size = [];
-    let color = [];
-    if (!req.query.gender && !req.query.size && !req.query.color) {
+    let Gender = [];
+    let Size = [];
+    let Color = [];
+    if (!req.query.Gender && !req.query.Size && !req.query.Color) {
         const products = await allProducts(req.query.page);
         res.send(sort(products, req.query.sort))
     }
     else {
-        if (req.query.gender != undefined) {
-            gender = await prodAttributes(req.query.gender);
+        if (req.query.Gender != undefined) {
+            Gender = await prodAttributes(req.query.Gender);
         }
-        if (req.query.size != undefined) {
-            size = await prodAttributes(req.query.size);
+        if (req.query.Size != undefined) {
+            Size = await prodAttributes(req.query.Size);
         }
-        if (req.query.color != undefined) {
-            color = await prodAttributes(req.query.color);
+        if (req.query.Color != undefined) {
+            Color = await prodAttributes(req.query.Color);
         }
-        let result = await filter(size, color, gender);
+        let result = await filter(Size, Color, Gender);
         final = await filteredProds(result, req.query.page)
         res.send(sort(final, req.query.sort))
     }
