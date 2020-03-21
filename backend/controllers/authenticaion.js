@@ -9,11 +9,11 @@ let jwt = require('jsonwebtoken');
 // ecnryption
 const Cryptr = require('cryptr');
 const cryptr = new Cryptr(key);
-createUser =  async (body) => {
-    const user=await customer.create({
-        name: `${body.name}`,
-        email: `${body.email}`,
-        password: cryptr.encrypt(`${body.password}`)
+createUser = async ({name, email, password}) => {
+    const user = await customer.create({
+        name,
+        email,
+        password: cryptr.encrypt(password)
     });
     return user;
 

@@ -60,6 +60,10 @@ class LandingPage extends React.Component {
         console.log(this.state)
         this.props.getProducts({Gender, Color, Size, Sort})
       }
+
+      categoryHandler = e=>{
+        console.log(e)
+      }
   render() {
     const { products } = this.props;
     const { attributes } = this.props;
@@ -69,17 +73,17 @@ class LandingPage extends React.Component {
     const { pages } = this.state;
     return (
     <div>
-      <Navbar bg="dark" variant="dark">
+      <Navbar bg="dark" variant="dark" onSelect={this.categoryHandler}>
         <Navbar.Brand href="#home" >Full Stack Challenge</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto header">
             {
               categories.map(c => (
-                <Nav.Link href="#" key={c.category_id}>{c.name}</Nav.Link>
+                <Nav.Link key={c.category_id} eventKey={c.category_id} id={c.category_id} onClick={this.categoryHandler}>{c.name}</Nav.Link>
               ))
             }
-            <Nav.Link href="#">All Products</Nav.Link>
+            <Nav.Link>All Products</Nav.Link>
           </Nav>
          
         </Navbar.Collapse>
@@ -124,7 +128,7 @@ class LandingPage extends React.Component {
           <Pagination  
           active={activePage}
            >
-          <Pagination.Prev onClick={this.paginationPrevious} />
+          <Pagination.Prev onClick={this.paginationPrevious}/>
             {
               pages.map(p => (<Pagination.Item onClick={this.pagination} key={p}>{p}</Pagination.Item>))
             }

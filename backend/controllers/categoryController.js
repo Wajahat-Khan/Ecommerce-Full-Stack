@@ -6,11 +6,11 @@ const { filter, prodAttributes, filteredProds } = require('./productsController'
 const { Op } = require("sequelize");
 
 
-prodByCategory = async (id, off, g, s, c) => {
+prodByCategory = async (id, off, gender, size, color) => {
     let temp = []
-    let gender = [];
-    let size = [];
-    let color = [];
+    let _gender = [];
+    let _size = [];
+    let _color = [];
     ids = [];
     if (off == undefined) { off = 1 };
     off = (parseInt(off) - 1) * 10;
@@ -26,20 +26,20 @@ prodByCategory = async (id, off, g, s, c) => {
     prod_ids.map(e => {
         ids.push(e.dataValues.product_id);
     })
-    if (s == undefined && g == undefined && c == undefined) {
+    if (size == undefined && gender == undefined && color == undefined) {
         return await product.findAll({ where: { product_id: { [Op.in]: ids } } });
     }
     else {
-        if (g != undefined) {
-            gender = await prodAttributes(g);
+        if (gender != undefined) {
+            _gender = await prodAttributes(gender);
         }
-        if (s != undefined) {
-            size = await prodAttributes(s);
+        if (size != undefined) {
+            _size = await prodAttributes(size);
         }
-        if (c != undefined) {
-            color = await prodAttributes(c);
+        if (color != undefined) {
+            _color = await prodAttributes(color);
         }
-        let result = filter(size, color, gender);
+        let result = filter(_size, _color, _gender);
         common = _.intersection(result, ids);
 
         return await filteredProds(common)
