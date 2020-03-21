@@ -1,5 +1,6 @@
 import {GET_PRODUCTS_REQUEST,GET_CONFIGS_REQUEST, LOGIN_REQUEST,
-  GET_PRODUCT_BY_CATEGORY_REQUEST} from "../constants/action-types";
+  GET_PRODUCT_BY_CATEGORY_REQUEST,
+  SEARCH_REQUEST} from "../constants/action-types";
 
 export function getProducts(payload) {
     return { type: GET_PRODUCTS_REQUEST, payload };
@@ -14,4 +15,7 @@ export function getConfigurations(payload) {
 
 export function login(payload) {
     return { type: LOGIN_REQUEST, payload };
+  }
+  export function searchProducts(payload) {
+    return { type: SEARCH_REQUEST, payload };
   }

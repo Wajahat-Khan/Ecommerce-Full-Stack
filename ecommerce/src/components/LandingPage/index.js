@@ -1,7 +1,7 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
 import { connect } from 'react-redux';
-import { getConfigurations,getProducts,getProductsByCategory } from '../../js/actions';
+import { getConfigurations,getProducts,getProductsByCategory,searchProducts } from '../../js/actions';
 import {
   Navbar, Nav, NavDropdown, Form, FormControl, Button, Dropdown, DropdownButton, Pagination,
   Container, Col, Row,Image
@@ -12,11 +12,16 @@ class LandingPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = { products: [], activePage: 1, pages: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-    Gender:undefined, Color:undefined, Size:undefined,Sort:undefined,categoryId: undefined };
+    Gender:undefined, Color:undefined, Size:undefined,Sort:undefined,categoryId: undefined, q:undefined};
   }
 
   componentDidMount = () => {
     this.props.getConfigurations();
+  }
+
+  search = e=>{
+    this.setState({q:e.target.value});
+    this.props.searchProducts({q:e.target.value});
   }
   pagination = e => {
     const {Gender, Color, Size, Sort, categoryId} = this.state;
@@ -134,8 +139,8 @@ class LandingPage extends React.Component {
 
           </DropdownButton>
           <Form inline className="filters">
-            <FormControl type="text" placeholder="Search" className="mr-sm-2" />
-            <Button variant="outline-success">Search</Button>
+            <FormControl type="text" placeholder="Search" className="mr-sm-2" onChange={this.search}/>
+            <Button variant="outline-success" >Search</Button>
           </Form>
         </Row>
         </Container>
@@ -184,7 +189,8 @@ class LandingPage extends React.Component {
 const mapDispatchToProps = dispatch => {
   return { getConfigurations: payload => dispatch(getConfigurations(payload)),
     getProducts:payload=>dispatch(getProducts(payload)),
-    getProductsByCategory:payload=>dispatch(getProductsByCategory(payload)) }
+    getProductsByCategory:payload=>dispatch(getProductsByCategory(payload)),
+    searchProducts:payload=>dispatch(searchProducts(payload)) }
 }
 const mapStateToProps = state => {
   return { products: state.products, categories: state.categories, attributes: state.attributes, attributes_values: state.attributes_values }
