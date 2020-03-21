@@ -1,7 +1,9 @@
 import { call, takeEvery, put } from 'redux-saga/effects';
 import { GET_PRODUCTS_REQUEST,GET_PRODUCTS_SUCCESS,GET_PRODUCTS_FAILURE,
     GET_CONFIGS_REQUEST,GET_CONFIGS_SUCCESS,GET_CONFIGS_FAILURE,
-    LOGIN_REQUEST,LOGIN_SUCCESS,LOGIN_FAILURE} from '../constants/action-types';
+    LOGIN_REQUEST,LOGIN_SUCCESS,LOGIN_FAILURE,
+    GET_PRODUCT_BY_CATEGORY_REQUEST,GET_PRODUCT_BY_CATEGORY_SUCCESS,GET_PRODUCT_BY_CATEGORY_FAILURE,
+} from '../constants/action-types';
 
     import API from '../../services';
 
@@ -33,11 +35,21 @@ function* handleLogin(action) {
         yield put({type: LOGIN_FAILURE})
     }
 }
+function* handleProductsByCategory(action) {
+    try {
+        const products = yield call(API.getProductsByCategory, action.payload);
+        yield put({type: GET_PRODUCT_BY_CATEGORY_SUCCESS, payload: products})
+    }
+    catch (error) {
+        yield put({type: GET_PRODUCT_BY_CATEGORY_FAILURE})
+    }
+}
 
 function* rootSaga() {
     yield takeEvery(GET_PRODUCTS_REQUEST, handleProductsSaga);
     yield takeEvery(GET_CONFIGS_REQUEST, handleConfigurations);
     yield takeEvery(LOGIN_REQUEST, handleLogin);
+    yield takeEvery(GET_PRODUCT_BY_CATEGORY_REQUEST, handleProductsByCategory);
 }
 
 export default rootSaga;

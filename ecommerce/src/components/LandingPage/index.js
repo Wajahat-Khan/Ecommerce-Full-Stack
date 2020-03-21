@@ -1,7 +1,7 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
 import { connect } from 'react-redux';
-import { getConfigurations,getProducts } from '../../js/actions';
+import { getConfigurations,getProducts,getProductsByCategory } from '../../js/actions';
 import {
   Navbar, Nav, NavDropdown, Form, FormControl, Button, Dropdown, DropdownButton, Pagination,
   Container, Col, Row,Image
@@ -12,37 +12,46 @@ class LandingPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = { products: [], activePage: 1, pages: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-    Gender:undefined, Color:undefined, Size:undefined,Sort:undefined };
+    Gender:undefined, Color:undefined, Size:undefined,Sort:undefined,categoryId: undefined };
   }
 
   componentDidMount = () => {
     this.props.getConfigurations();
   }
   pagination = e => {
-    const {Gender, Color, Size, Sort} = this.state;
+    const {Gender, Color, Size, Sort, categoryId} = this.state;
     let page=parseInt(e.target.text);
       this.setState({activePage:page});
-      this.props.getProducts({page,Gender, Color, Size, Sort})
+      if(categoryId)  {
+        this.props.getProductsByCategory({categoryId, Gender, Color, Size, Sort,page});
+      }
+      else this.props.getProducts({page,Gender, Color, Size, Sort})
     
     };
     paginationNext= e => {
-      const {Gender, Color, Size, Sort} = this.state;
+      const {Gender, Color, Size, Sort, categoryId} = this.state;
       let page=this.state.activePage + 1;
       this.setState({activePage:page});
-      this.props.getProducts({page,Gender, Color, Size, Sort})
+      if(categoryId)  {
+        this.props.getProductsByCategory({categoryId, Gender, Color, Size, Sort,page});
+      }
+      else this.props.getProducts({page,Gender, Color, Size, Sort})
+      
       };
     paginationPrevious= e => {
-      const {Gender, Color, Size, Sort} = this.state;
+      const {Gender, Color, Size, Sort, categoryId} = this.state;
       if(this.state.activePage>1) { 
       let page=this.state.activePage - 1;
         this.setState({activePage:page});
-        this.props.getProducts({page,Gender, Color, Size, Sort})
+        if(categoryId)  {
+          this.props.getProductsByCategory({categoryId, Gender, Color, Size, Sort,page});
+        }
+        else this.props.getProducts({page,Gender, Color, Size, Sort})
         }
       };
   
       handleFilter= (ek,e)=>{
-        console.log(e.target.id)
-        console.log(ek)
+
        if(ek=="clear"){
          this.setState({ [e.target.id]: undefined },()=>{
           this.validateFilter();
@@ -56,14 +65,25 @@ class LandingPage extends React.Component {
       }
       }
       validateFilter=(v)=>{
-        const {Gender, Color, Size,Sort} = this.state;
-        console.log(this.state)
-        this.props.getProducts({Gender, Color, Size, Sort})
-      }
+        const {Gender, Color, Size,Sort,categoryId} = this.state;
+        if(categoryId)  {
+          this.props.getProductsByCategory({categoryId, Gender, Color, Size, Sort});
+        }
+        else this.props.getProducts({Gender, Color, Size, Sort})
+        }
+        
+      
 
-      categoryHandler = e=>{
-        console.log(e)
+      categoryHandler = categoryId=>{
+        const {Gender, Color, Size, Sort} = this.state;
+        if(categoryId=="clear"){
+          this.setState({categoryId:undefined});
+          this.props.getProducts({Gender, Color, Size, Sort})
+        }else{
+        this.setState({categoryId:categoryId});
+        this.props.getProductsByCategory({categoryId, Gender, Color, Size, Sort});
       }
+    }
   render() {
     const { products } = this.props;
     const { attributes } = this.props;
@@ -80,10 +100,10 @@ class LandingPage extends React.Component {
           <Nav className="mr-auto header">
             {
               categories.map(c => (
-                <Nav.Link key={c.category_id} eventKey={c.category_id} id={c.category_id} onClick={this.categoryHandler}>{c.name}</Nav.Link>
+                <Nav.Link key={c.category_id} eventKey={c.category_id} id={c.category_id}>{c.name}</Nav.Link>
               ))
             }
-            <Nav.Link>All Products</Nav.Link>
+            <Nav.Link eventKey="clear">All Products</Nav.Link>
           </Nav>
          
         </Navbar.Collapse>
@@ -163,7 +183,8 @@ class LandingPage extends React.Component {
 
 const mapDispatchToProps = dispatch => {
   return { getConfigurations: payload => dispatch(getConfigurations(payload)),
-    getProducts:payload=>dispatch(getProducts(payload)) }
+    getProducts:payload=>dispatch(getProducts(payload)),
+    getProductsByCategory:payload=>dispatch(getProductsByCategory(payload)) }
 }
 const mapStateToProps = state => {
   return { products: state.products, categories: state.categories, attributes: state.attributes, attributes_values: state.attributes_values }

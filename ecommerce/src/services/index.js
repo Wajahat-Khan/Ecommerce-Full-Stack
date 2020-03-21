@@ -14,6 +14,21 @@ const API = {
                 return Promise.reject(error);
             });
     },
+    getProductsByCategory : load => {
+        console.log(load)
+        let id = load.categoryId;
+        delete load.categoryId;
+        console.log("new load")
+        console.log(load)
+        return axios
+            .get(constants.url + 'category/'+`${id}`,{params:load})
+            .then(response => {
+                return Promise.resolve(response.data);
+            })
+            .catch(error => {
+                return Promise.reject(error);
+            });
+    },
     configuration : () => {
         return axios
             .get(constants.url)
