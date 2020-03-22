@@ -7,6 +7,7 @@ var productsRouter = require('./routes/productsRouter');
 var categoryRouter = require('./routes/categoryRouter');
 var signupRouter = require('./routes/signupRouter');
 var loginRouter = require('./routes/loginRouter');
+var orderRouter = require('./routes/orderRouter');
 var app = express();
 
 app.use(express.json());
@@ -17,6 +18,7 @@ app.use('/login', loginRouter);
 app.use('/signup', signupRouter);
 app.use('/products', productsRouter);
 app.use('/category', categoryRouter);
+app.use('/order', orderRouter);
 
 
 
