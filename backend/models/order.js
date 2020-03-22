@@ -37,7 +37,7 @@ module.exports = (sequelize, DataTypes) => {
     order_date: { type: DataTypes.DATE, allowNull: false },
     total_price: { type: DataTypes.DECIMAL, allowNull: false }
   },
-  {}
+  {timestamps:false}
   
   );
   orders.associate = function(models) {

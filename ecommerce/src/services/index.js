@@ -70,6 +70,25 @@ const API = {
             .catch(error => {
                 return Promise.reject(error);
             });
+    },
+    addOrder: post=>{
+        console.log(post)
+        return axios
+            .post(constants.url + 'order',{
+                customer_id:post.customer_id, 
+                product_id:post.product_id, 
+                size:post.size, 
+                color:post.color, 
+                quantity:post.quantity, 
+                order_date:post.order_date, 
+                total_price:post.total_price
+            })
+            .then(response => {
+                return Promise.resolve(response.data);
+            })
+            .catch(error => {
+                return Promise.reject(error);
+            });
     }
 }
 

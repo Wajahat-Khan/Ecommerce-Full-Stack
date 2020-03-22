@@ -5,34 +5,34 @@ import { getProductById } from '../../js/actions';
 import '../Product/Product.css';
 
 import { Navbar, Container, Row, Image, Col, Spinner, Button } from 'react-bootstrap'
-
+import {addOrder,addChart } from '../../js/actions/index';
 
 class Product extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            id: undefined, colors: [], sizes: [], genders: [], Gender: undefined, Color: undefined, Size: undefined,
-            quantity:1, size:undefined, color:undefined
+            product_id: undefined, quantity:1, size:undefined, color:undefined
         }
     }
 
     componentDidMount = () => {
-        this.setState({ id: this.props.match.params.id });
+        this.setState({ product_id: this.props.match.params.id });
         this.props.getProductById(this.props.match.params.id);
     }
     colorFiltration = (obj) => {
         if (obj.attribute_value.attribute_id == 2)
-            return (<Button id= {obj.attribute_value_id} style={{ backgroundColor: `${obj.attribute_value.value}` }} className="options" onClick={this.colorHandle}></Button>)
+            return (<Button id= {obj.attribute_value.value} key= {obj.attribute_value_id} style={{ backgroundColor: `${obj.attribute_value.value}` }} className="options" onClick={this.colorHandle}></Button>)
         return;
 
     }
     sizeFilteration = (obj) => {
         if (obj.attribute_value.attribute_id == 1)
-            return (<Button id = {obj.attribute_value_id} variant="outline-secondary" className="options" onClick={this.sizeHandle}>{obj.attribute_value.value}</Button>)
+            return (<Button id = {obj.attribute_value.value} key={obj.attribute_value_id} variant="outline-secondary" className="options" onClick={this.sizeHandle}>{obj.attribute_value.value}</Button>)
         return;
 
     }
     colorHandle= e=>{
+        
         this.setState({color:e.target.id})
     }
     sizeHandle=e=>{
@@ -49,10 +49,22 @@ class Product extends React.Component {
         quantity=quantity-1;
         this.setState({quantity})
     }
+    quantityInput =e =>{
+        return;
+    }
+    addChart=e=>{
+        const { product_id, quantity, size, color} = this.state;
+        let customer_id=1;
+        let order_date= new Date();
+        let total_price=15.0;
+        const{product}= this.props;
+        this.props.addChart({customer_id,product_id,product,size,color,quantity,order_date,total_price})
+        //this.props.addOrder({customer_id,product_id,size,color,quantity,order_date,total_price})
+
+    }
 
     render() {
-        const { product } = this.props;
-
+        const { product,chart } = this.props;
         if (!product) {
             return (
                 <div className="spin"><Spinner animation="grow" size="lg" /></div>
@@ -85,13 +97,13 @@ class Product extends React.Component {
                             <Row >
                                 <div className="input-group">
                                     <input type="button" value="-" className="button-minus" data-field="quantity" onClick={this.decrease} />
-                                    <input type="number" step="1" value={this.state.quantity} name="quantity" className="quantity-field" />
+                                    <input type="number" step="1" value={this.state.quantity} name="quantity" className="quantity-field" onChange={this.quantityInput}/>
                                     <input type="button" value="+" className="button-plus" data-field="quantity"  onClick={this.increase}/>
                                 </div>
 
                             </Row>
                             <Row>
-                            <Button variant="outline-success" className="options">Add To Cart</Button>
+                            <Button variant="outline-success" className="options" onClick={this.addChart}>Add To Cart</Button>
                             </Row>
                         </Col>
                     </Row>
@@ -103,9 +115,12 @@ class Product extends React.Component {
 }
 
 const mapDispatchToProps = dispatch => {
-    return { getProductById: payload => dispatch(getProductById(payload)) }
+    return { getProductById: payload => dispatch(getProductById(payload)),
+        addOrder: payload => dispatch(addOrder(payload)),
+        addChart: payload => dispatch(addChart(payload))
+    }
 }
 const mapStateToProps = state => {
-    return { product: state.product }
+    return { product: state.product, chart:state.chart }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Product))
