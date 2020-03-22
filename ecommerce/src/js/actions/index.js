@@ -1,9 +1,14 @@
 import {GET_PRODUCTS_REQUEST,GET_CONFIGS_REQUEST, LOGIN_REQUEST,
   GET_PRODUCT_BY_CATEGORY_REQUEST,
-  SEARCH_REQUEST} from "../constants/action-types";
+  SEARCH_REQUEST,
+  GET_PRODUCT_BY_ID_REQUEST} from "../constants/action-types";
 
 export function getProducts(payload) {
     return { type: GET_PRODUCTS_REQUEST, payload };
+  }
+
+export function getProductById(payload) {
+    return { type: GET_PRODUCT_BY_ID_REQUEST, payload };
   }
 
   export function getProductsByCategory(payload) {

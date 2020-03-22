@@ -32,3 +32,9 @@ margin-bottom: 2%;
 .clear{
     background-color: crimson;
 }
+.spin{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+
+}

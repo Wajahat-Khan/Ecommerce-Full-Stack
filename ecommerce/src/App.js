@@ -8,6 +8,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 import LandingPage from '../src/components/LandingPage';
 import Login from '../src/components/Login'
+import Product from '../src/components/Product'
 
 class App extends React.Component {
   constructor(props) {
@@ -18,6 +19,7 @@ class App extends React.Component {
       <Provider store={store}>
         <BrowserRouter>
           <Route exact path="/" component={LandingPage} />
+          <Route exact path="/:id" component={Product} />
           <Route exact path="/login" component={Login} />
         </BrowserRouter>
       </Provider>

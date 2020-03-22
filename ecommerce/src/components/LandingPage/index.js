@@ -1,17 +1,17 @@
 import React from "react";
-import { withRouter } from "react-router-dom";
+import { withRouter,Link } from "react-router-dom";
 import { connect } from 'react-redux';
 import { getConfigurations,getProducts,getProductsByCategory,searchProducts } from '../../js/actions';
 import {
   Navbar, Nav, NavDropdown, Form, FormControl, Button, Dropdown, DropdownButton, Pagination,
-  Container, Col, Row,Image
+  Container, Col, Row,Image,Spinner
 } from 'react-bootstrap';
 import '../LandingPage/LandingPage.css'
 
 class LandingPage extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { products: [], activePage: 1, pages: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+    this.state = {  activePage: 1, pages: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
     Gender:undefined, Color:undefined, Size:undefined,Sort:undefined,categoryId: undefined, q:undefined};
   }
 
@@ -96,10 +96,16 @@ class LandingPage extends React.Component {
     const { categories } = this.props;
     const { activePage } = this.state;
     const { pages } = this.state;
+    
+  if(products.length===0){
     return (
+      <div className="spin"><Spinner animation="grow" size="lg"/></div>
+      )}
+  
+  return (
     <div>
       <Navbar bg="dark" variant="dark" onSelect={this.categoryHandler}>
-        <Navbar.Brand href="#home" >Full Stack Challenge</Navbar.Brand>
+      <Link to='/'> <Navbar.Brand  >Full Stack Challenge</Navbar.Brand></Link>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto header">
@@ -167,14 +173,18 @@ class LandingPage extends React.Component {
          <Row className="justify-content-md-center">
            { 
             products.map(p=>(
+              
                 <div className="products" key={p.product_id}>
+                  <Link to={`/${p.product_id}`}>
                   <Row className="justify-content-md-center">
-                  <Image className="product-image" src="https://thestore.pk/image/data/PSL/%5E27B55BDA5A8A2F5DAE03EDEC5574AAB5F58C19383084404102%5Epimgpsh_fullsize_distr.jpg" />
-                  </Row>
+                 <Image className="product-image" src="https://thestore.pk/image/data/PSL/%5E27B55BDA5A8A2F5DAE03EDEC5574AAB5F58C19383084404102%5Epimgpsh_fullsize_distr.jpg" />
+                  </Row></Link>
                   <Row className="justify-content-md-center">{p.name}</Row>
                   <Row className="justify-content-md-center">${p.price}</Row>
-                  <Row className="justify-content-md-center"><Button variant="info">Buy Now</Button></Row>
+                  <Row className="justify-content-md-center"><Link to={`/${p.product_id}`}><Button variant="info">Buy Now</Button></Link></Row>
+                  
                 </div>
+                
             ))
           }
           

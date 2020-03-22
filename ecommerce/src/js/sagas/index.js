@@ -3,7 +3,8 @@ import { GET_PRODUCTS_REQUEST,GET_PRODUCTS_SUCCESS,GET_PRODUCTS_FAILURE,
     GET_CONFIGS_REQUEST,GET_CONFIGS_SUCCESS,GET_CONFIGS_FAILURE,
     LOGIN_REQUEST,LOGIN_SUCCESS,LOGIN_FAILURE,
     GET_PRODUCT_BY_CATEGORY_REQUEST,GET_PRODUCT_BY_CATEGORY_SUCCESS,GET_PRODUCT_BY_CATEGORY_FAILURE,
-    SEARCH_REQUEST,SEARCH_SUCCESS,SEARCH_FAILURE
+    SEARCH_REQUEST,SEARCH_SUCCESS,SEARCH_FAILURE,
+    GET_PRODUCT_BY_ID_REQUEST,GET_PRODUCT_BY_ID_SUCCESS,GET_PRODUCT_BY_ID_FAILURE
 } from '../constants/action-types';
 
     import API from '../../services';
@@ -55,12 +56,23 @@ function* handleSearch(action) {
         yield put({type: SEARCH_FAILURE})
     }
 }
+
+function* handleProductById(action) {
+    try {
+        const products = yield call(API.ProductById, action.payload);
+        yield put({type:GET_PRODUCT_BY_ID_SUCCESS , payload: products})
+    }
+    catch (error) {
+        yield put({type: GET_PRODUCT_BY_ID_FAILURE})
+    }
+}
 function* rootSaga() {
     yield takeEvery(GET_PRODUCTS_REQUEST, handleProductsSaga);
     yield takeEvery(GET_CONFIGS_REQUEST, handleConfigurations);
     yield takeEvery(LOGIN_REQUEST, handleLogin);
     yield takeEvery(GET_PRODUCT_BY_CATEGORY_REQUEST, handleProductsByCategory);
     yield takeEvery(SEARCH_REQUEST, handleSearch);
+    yield takeEvery(GET_PRODUCT_BY_ID_REQUEST, handleProductById);
 }
 
 export default rootSaga;

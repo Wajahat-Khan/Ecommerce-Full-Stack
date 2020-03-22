@@ -25,6 +25,17 @@ const API = {
                 return Promise.reject(error);
             });
     },
+    ProductById : id => {
+        console.log(id)
+        return axios
+            .get(constants.url +`products/${id}`)
+            .then(response => {
+                return Promise.resolve(response.data);
+            })
+            .catch(error => {
+                return Promise.reject(error);
+            });
+    },
     getProductsByCategory : load => {
         let id = load.categoryId;
         delete load.categoryId;
