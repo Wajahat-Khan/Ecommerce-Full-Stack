@@ -11,7 +11,8 @@ class Product extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            id: undefined, colors: [], sizes: [], genders: [], Gender: undefined, Color: undefined, Size: undefined
+            id: undefined, colors: [], sizes: [], genders: [], Gender: undefined, Color: undefined, Size: undefined,
+            quantity:1, size:undefined, color:undefined
         }
     }
 
@@ -21,16 +22,34 @@ class Product extends React.Component {
     }
     colorFiltration = (obj) => {
         if (obj.attribute_value.attribute_id == 2)
-            return (<Button style={{ backgroundColor: `${obj.attribute_value.value}` }} className="options"></Button>)
+            return (<Button id= {obj.attribute_value_id} style={{ backgroundColor: `${obj.attribute_value.value}` }} className="options" onClick={this.colorHandle}></Button>)
         return;
 
     }
     sizeFilteration = (obj) => {
         if (obj.attribute_value.attribute_id == 1)
-            return (<Button variant="outline-secondary" className="options">{obj.attribute_value.value}</Button>)
+            return (<Button id = {obj.attribute_value_id} variant="outline-secondary" className="options" onClick={this.sizeHandle}>{obj.attribute_value.value}</Button>)
         return;
 
     }
+    colorHandle= e=>{
+        this.setState({color:e.target.id})
+    }
+    sizeHandle=e=>{
+        this.setState({size:e.target.id},()=>{console.log(this.state)
+        })
+            }
+    increase = e =>{
+        let {quantity}=this.state;
+        quantity=quantity+1;
+        this.setState({quantity})
+    }
+    decrease = e =>{
+        let {quantity}=this.state;
+        quantity=quantity-1;
+        this.setState({quantity})
+    }
+
     render() {
         const { product } = this.props;
 
@@ -47,29 +66,32 @@ class Product extends React.Component {
                 </Navbar>
                 <Container fluid>
                     <Row>
-                        <Col md={3}>
+                        <Col md={4}>
                             <Image className="product-img" src="https://thestore.pk/image/data/PSL/%5E27B55BDA5A8A2F5DAE03EDEC5574AAB5F58C19383084404102%5Epimgpsh_fullsize_distr.jpg" />
                         </Col>
                         <Col>
                             <h2>{product.name}</h2>
                             <p>{product.description}</p>
-                            <p>${product.price}</p>
-                            <p> Colors</p>
+                            <p style={{color:"red"}}>${product.price}</p>
+                            <b> Colors</b>
                             <Row>{
                                 product.product_attributes.map(this.colorFiltration)
                             }</Row>
-                            <p>Sizes</p>
+                            <b>Sizes</b>
                             <Row>{
                                 product.product_attributes.map(this.sizeFilteration)
                             }</Row>
-                            <p>Quantity</p>
-                            <Row>
-                                <Button variant="outline-secondary" className="options">+</Button>
-                                <input  type="number" id="quantity" name="quantity" min="1" max="5" />
-                                <Button variant="outline-secondary" className="options">-</Button>
+                            <b>Quantity</b>
+                            <Row >
+                                <div className="input-group">
+                                    <input type="button" value="-" className="button-minus" data-field="quantity" onClick={this.decrease} />
+                                    <input type="number" step="1" value={this.state.quantity} name="quantity" className="quantity-field" />
+                                    <input type="button" value="+" className="button-plus" data-field="quantity"  onClick={this.increase}/>
+                                </div>
+
                             </Row>
                             <Row>
-                              
+                            <Button variant="outline-success" className="options">Add To Cart</Button>
                             </Row>
                         </Col>
                     </Row>
