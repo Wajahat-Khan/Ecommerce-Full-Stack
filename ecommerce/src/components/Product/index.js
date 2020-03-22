@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { getProductById } from '../../js/actions';
 import '../Product/Product.css';
 
-import { Navbar, Container, Row, Image, Col, Spinner,Button } from 'react-bootstrap'
+import { Navbar, Container, Row, Image, Col, Spinner, Button } from 'react-bootstrap'
 
 
 class Product extends React.Component {
@@ -19,17 +19,17 @@ class Product extends React.Component {
         this.setState({ id: this.props.match.params.id });
         this.props.getProductById(this.props.match.params.id);
     }
-    colorFiltration = (obj)=>{
-        if(obj.attribute_value.attribute_id==2)
-        return  (<Button style={{backgroundColor:`${obj.attribute_value.value}`}} className="options">{obj.attribute_value.value}</Button>)
-      return;
-       
+    colorFiltration = (obj) => {
+        if (obj.attribute_value.attribute_id == 2)
+            return (<Button style={{ backgroundColor: `${obj.attribute_value.value}` }} className="options"></Button>)
+        return;
+
     }
-    sizeFilteration= (obj)=>{
-        if(obj.attribute_value.attribute_id==1)
-        return  (<Button className="options">{obj.attribute_value.value}</Button>)
-      return;
-       
+    sizeFilteration = (obj) => {
+        if (obj.attribute_value.attribute_id == 1)
+            return (<Button variant="outline-secondary" className="options">{obj.attribute_value.value}</Button>)
+        return;
+
     }
     render() {
         const { product } = this.props;
@@ -39,8 +39,8 @@ class Product extends React.Component {
                 <div className="spin"><Spinner animation="grow" size="lg" /></div>
             )
         }
-        
-    return (
+
+        return (
             <div>
                 <Navbar bg="dark" variant="dark" className="nav">
                     <Link to='/'> <Navbar.Brand  >Full Stack Challenge</Navbar.Brand></Link>
@@ -62,6 +62,15 @@ class Product extends React.Component {
                             <Row>{
                                 product.product_attributes.map(this.sizeFilteration)
                             }</Row>
+                            <p>Quantity</p>
+                            <Row>
+                                <Button variant="outline-secondary" className="options">+</Button>
+                                <input  type="number" id="quantity" name="quantity" min="1" max="5" />
+                                <Button variant="outline-secondary" className="options">-</Button>
+                            </Row>
+                            <Row>
+                              
+                            </Row>
                         </Col>
                     </Row>
                 </Container>

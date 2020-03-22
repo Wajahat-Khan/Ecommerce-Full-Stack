@@ -1,7 +1,7 @@
 const _ = require("lodash");
 const product_attributes = require('../models').product_attributes;
 const product = require('../models').product;
-
+const attribute_values=require('../models').attribute_values;
 const { Op } = require("sequelize");
 
 // fetch all products 
@@ -79,7 +79,10 @@ prodAttributes = async (id) => {
 // product by id function
 productById = async id => {
     let pd = await product.findOne({ 
-        include:[{model:product_attributes}],
+        include:[{
+            model:product_attributes,
+            include:[attribute_values]
+        }],
         where: 
         { product_id: parseInt(id) }
         

@@ -21,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
     {timestamps:false}
   );
   attribute_values.associate = function(models) {
-    // associations can be defined here
+ 
   };
   return attribute_values;
 };

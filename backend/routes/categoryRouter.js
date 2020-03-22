@@ -6,8 +6,8 @@ const { sort } = require('../controllers/productsController');
 // products by category
 router.get('/:id', async (req, res) => {
     const id = req.params.id;
-    prods = await prodByCategory(id, req.query.page, req.query.gender, req.query.size, req.query.color);
-    res.send(sort(prods, req.query.sort));
+    prods = await prodByCategory(id, req.query.page, req.query.Gender, req.query.Size, req.query.Color);
+    res.send(sort(prods, req.query.Sort));
 });
 
 module.exports = router;  

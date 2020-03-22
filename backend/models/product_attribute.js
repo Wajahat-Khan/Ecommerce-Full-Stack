@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
         primaryKey: true,
         references: {
-          model: "AttributeValues",
+          model: "attribute_values",
           key: "attribute_value_id"
         }
       }
@@ -23,7 +23,7 @@ module.exports = (sequelize, DataTypes) => {
     {timestamps:false}
   );
   product_attributes.associate = function(models) {
-    
+    product_attributes.belongsTo(models.attribute_values,{ foreignKey: 'attribute_value_id'});
     };
   return product_attributes;
 };
