@@ -21,10 +21,11 @@ createUser = async ({name, email, password}) => {
 
 validate = async (body)=>{
     const user= await customer.findOne({
-        attributes: ['password'], where: {
+        attributes: ['password','customer_id'], where: {
             name: body.username
         }
     })
+    
     if (user != undefined){
         console.log(`${process.env.SECRET_JWT}`)
         const pass = cryptr.decrypt(user.password);
@@ -37,6 +38,7 @@ validate = async (body)=>{
             );
             // return the JWT token for the future API calls
             return {
+                customer_id:user.customer_id,
                 success: true,
                 message: 'Authentication successful!',
                 token: token
