@@ -5,13 +5,15 @@ import { getProductById } from '../../js/actions';
 import '../Product/Product.css';
 
 import { Navbar, Container, Row, Image, Col, Spinner, Button } from 'react-bootstrap'
-import {addOrder,addChart } from '../../js/actions/index';
+import {addChart } from '../../js/actions/index';
+import Chart from '../Chart';
+import { throwStatement } from "@babel/types";
 
 class Product extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            product_id: undefined, quantity:1, size:undefined, color:undefined
+            product_id: undefined, quantity:1, size:undefined, color:undefined,modalShow:false
         }
     }
 
@@ -56,13 +58,14 @@ class Product extends React.Component {
         const { product_id, quantity, size, color} = this.state;
         let customer_id=1;
         let order_date= new Date();
-        let total_price=15.0;
         const{product}= this.props;
+        let total_price=product.price * quantity;
         this.props.addChart({customer_id,product_id,product,size,color,quantity,order_date,total_price})
-        //this.props.addOrder({customer_id,product_id,size,color,quantity,order_date,total_price})
 
     }
-
+    chart= e=>{
+         this.setState({modalShow:true})
+    }
     render() {
         const { product,chart } = this.props;
         if (!product) {
@@ -75,7 +78,12 @@ class Product extends React.Component {
             <div>
                 <Navbar bg="dark" variant="dark" className="nav">
                     <Link to='/'> <Navbar.Brand  >Full Stack Challenge</Navbar.Brand></Link>
+                    <Navbar.Collapse className="justify-content-end">
+                    <Button variant="outline-warning" className=" mr-sm-2" onClick={this.chart}>Chart</Button>
+                    <Button variant="outline-danger" onClick={this.checkout}>Checkout</Button>
+                    </Navbar.Collapse>
                 </Navbar>
+                <Chart show={this.state.modalShow} close={()=>{this.setState({modalShow:false})}}/>
                 <Container fluid>
                     <Row>
                         <Col md={4}>
@@ -116,7 +124,6 @@ class Product extends React.Component {
 
 const mapDispatchToProps = dispatch => {
     return { getProductById: payload => dispatch(getProductById(payload)),
-        addOrder: payload => dispatch(addOrder(payload)),
         addChart: payload => dispatch(addChart(payload))
     }
 }
