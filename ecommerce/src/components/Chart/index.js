@@ -140,7 +140,7 @@ class Chart extends React.Component {
                     </Modal.Body>
                     <Modal.Footer>
                         
-                        <Button variant="warning" onClick={this.props.checkout}>Close</Button>
+                        <Button variant="warning" onClick={this.props.close}>Close</Button>
                     </Modal.Footer>
                 </Modal>
             );

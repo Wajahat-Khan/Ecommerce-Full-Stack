@@ -4,10 +4,10 @@ import { connect } from 'react-redux';
 import { getProductById } from '../../js/actions';
 import '../Product/Product.css';
 
-import { Navbar, Container, Row, Image, Col, Spinner, Button } from 'react-bootstrap'
+import { Navbar, Nav,Container, Row, Image, Col, Spinner, Button } from 'react-bootstrap'
 import {addChart,openModal,closeModal } from '../../js/actions/index';
 import Chart from '../Chart';
-
+import User from '../User'
 
 class Product extends React.Component {
     constructor(props) {
@@ -80,9 +80,12 @@ class Product extends React.Component {
             <div>
                 <Navbar bg="dark" variant="dark" className="nav">
                     <Link to='/'> <Navbar.Brand  >Full Stack Challenge</Navbar.Brand></Link>
+                    <Nav className="navbar-nav navbar-center">
+                    <Button className="chart-checkout" variant="outline-warning" className=" mr-sm-2" onClick={this.chart}>Chart</Button>
+                    <Link to="/checkout"><Button className="chart-checkout" variant="outline-danger" >Checkout</Button></Link>
+                    </Nav>
                     <Navbar.Collapse className="justify-content-end">
-                    <Button variant="outline-warning" className=" mr-sm-2" onClick={this.chart}>Chart</Button>
-                    <Link to="/checkout"><Button variant="outline-danger" >Checkout</Button></Link>
+                    <User />
                     </Navbar.Collapse>
                 </Navbar>
                 <Chart show={this.props.modal} close={this.props.closeModal} />

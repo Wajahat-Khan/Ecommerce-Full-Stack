@@ -15,8 +15,10 @@ class User extends React.Component {
         if(login){
             return(
             <div>
-                <Navbar.Brand >{customer_name}</Navbar.Brand>
                 <Button variant="outline-success" className=" mr-sm-2" onClick={this.props.signOut} >Sign Out</Button>
+                <Navbar.Text>
+      Signed in as: <a >{customer_name}</a>
+    </Navbar.Text>
             </div>)
         }
         else{
