@@ -12,6 +12,7 @@ const store = createStore(rootReducer, applyMiddleware(logger,sagaMiddleware));
 store.subscribe(()=>{
     localStorage.setItem('token', JSON.stringify(store.getState().token))
     localStorage.setItem('login', JSON.stringify(store.getState().login))
+    localStorage.setItem('login', JSON.stringify(store.getState().customer_id))
   })
 sagaMiddleware.run(rootSaga);
 

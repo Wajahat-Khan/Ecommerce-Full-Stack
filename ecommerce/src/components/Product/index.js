@@ -5,9 +5,9 @@ import { getProductById } from '../../js/actions';
 import '../Product/Product.css';
 
 import { Navbar, Container, Row, Image, Col, Spinner, Button } from 'react-bootstrap'
-import {addChart } from '../../js/actions/index';
+import {addChart,openModal,closeModal } from '../../js/actions/index';
 import Chart from '../Chart';
-import { throwStatement } from "@babel/types";
+
 
 class Product extends React.Component {
     constructor(props) {
@@ -48,9 +48,10 @@ class Product extends React.Component {
     }
     decrease = e =>{
         let {quantity}=this.state;
-        quantity=quantity-1;
+        if(quantity>1)
+        {quantity=quantity-1;
         this.setState({quantity})
-    }
+    }}
     quantityInput =e =>{
         return;
     }
@@ -60,14 +61,21 @@ class Product extends React.Component {
         let order_date= new Date();
         const{product}= this.props;
         let total_price=product.price * quantity;
+        total_price=total_price.toFixed(2);
         this.props.addChart({customer_id,product_id,product,size,color,quantity,order_date,total_price})
 
     }
     chart= e=>{
-         this.setState({modalShow:true})
+         this.props.openModal()
+    }
+
+    checkout = e=>{
+            console.log(localStorage.getItem('token'));
+         console.log(localStorage.getItem('login'));
+         
     }
     render() {
-        const { product,chart } = this.props;
+        const { product} = this.props;
         if (!product) {
             return (
                 <div className="spin"><Spinner animation="grow" size="lg" /></div>
@@ -83,7 +91,7 @@ class Product extends React.Component {
                     <Button variant="outline-danger" onClick={this.checkout}>Checkout</Button>
                     </Navbar.Collapse>
                 </Navbar>
-                <Chart show={this.state.modalShow} close={()=>{this.setState({modalShow:false})}}/>
+                <Chart show={this.props.modal} close={this.props.closeModal} />
                 <Container fluid>
                     <Row>
                         <Col md={4}>
@@ -124,10 +132,12 @@ class Product extends React.Component {
 
 const mapDispatchToProps = dispatch => {
     return { getProductById: payload => dispatch(getProductById(payload)),
-        addChart: payload => dispatch(addChart(payload))
+        addChart: payload => dispatch(addChart(payload)),
+        openModal: payload => dispatch(openModal(payload)),
+        closeModal: payload => dispatch(closeModal(payload))
     }
 }
 const mapStateToProps = state => {
-    return { product: state.product, chart:state.chart }
+    return { product: state.product, chart:state.chart, modal:state.modal}
 }
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Product))

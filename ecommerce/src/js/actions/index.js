@@ -5,7 +5,9 @@ import {
   GET_PRODUCT_BY_ID_REQUEST,
   ADD_ORDER_REQUEST,
   ADD_CART_REQUEST,
-  UPDATE_CART_REQUEST
+  UPDATE_CART_REQUEST,
+  OPEN_MODAL_REQUEST,
+  CLOSE_MODAL_REQUEST
 } from "../constants/action-types";
 
 export function getProducts(payload) {
@@ -40,4 +42,11 @@ export function addChart(payload) {
 
 export function updateChart(payload) {
   return { type: UPDATE_CART_REQUEST, payload };
+}
+
+export function openModal(payload) {
+  return { type: OPEN_MODAL_REQUEST, payload };
+}
+export function closeModal(payload) {
+  return { type: CLOSE_MODAL_REQUEST, payload };
 }

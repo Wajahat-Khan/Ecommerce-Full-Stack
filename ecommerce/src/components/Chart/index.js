@@ -3,7 +3,7 @@ import { Modal, Button, Row, Col, Image } from 'react-bootstrap';
 import { withRouter, Link } from "react-router-dom";
 import { connect } from 'react-redux';
 import '../Chart/Chart.css'
-import { updateChart } from '../../js/actions';
+import { updateChart, openModal,closeModal } from '../../js/actions';
 
 class Chart extends React.Component {
     constructor(props) {
@@ -28,7 +28,7 @@ class Chart extends React.Component {
         </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <h1>No Items to show</h1>
+                   <p>Empty Cart</p>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button onClick={this.props.close}>Close</Button>
@@ -42,12 +42,18 @@ class Chart extends React.Component {
         let index=parseInt(e.target.id);
         chart[index].quantity+=1;
         this.props.updateChart(chart);
+        this.forceUpdate();
+
+    
     }
     decrease = e =>{
         const {chart}=this.props;
         let index=parseInt(e.target.id);
+        if(chart[index].quantity>1){
         chart[index].quantity-=1;
         this.props.updateChart(chart);
+        this.forceUpdate();
+        }
     }
     quantityInput =e =>{
         console.log(e.target.id)
@@ -57,9 +63,9 @@ class Chart extends React.Component {
         let index=parseInt(e.target.id);
        chart.splice(index,1);
         this.props.updateChart(chart);
-        return;
+        this.forceUpdate();
     }
-    render(props) {
+    render() {
         const { chart } = this.props;
         if (chart.length === 0) {
             return this.emptyChart();
@@ -80,11 +86,13 @@ class Chart extends React.Component {
                         <table>
                              <col width="150"></col>
                             <col width="20"></col>
+                            <col width="20"></col>
                             <col width="100"></col>
                             <col width="20"></col>
                             <tr>
                                 <th>Item</th>
                                 <th>Size</th>
+                                <th>Color</th>
                                 <th>Quantity</th>
                                 <th>Price</th>
                             </tr>
@@ -109,6 +117,10 @@ class Chart extends React.Component {
                                         <td key={ch.size}>
                                         <h2 >{ch.size}</h2>
                                         </td>
+                                        
+                                        <td key={ch.color}>
+                                        <h2 >{ch.color}</h2>
+                                        </td>
 
                                         <td className="chart-q" key={i}> 
                                         <div className="input-group">
@@ -127,7 +139,8 @@ class Chart extends React.Component {
                         </table>
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button onClick={this.props.close}>Close</Button>
+                        
+                        <Button variant="warning" onClick={this.props.checkout}>Close</Button>
                     </Modal.Footer>
                 </Modal>
             );
@@ -138,10 +151,11 @@ class Chart extends React.Component {
 }
 const mapDispatchToProps = dispatch => {
     return {
-        updateChart: payload => dispatch(updateChart(payload))
+        updateChart: payload => dispatch(updateChart(payload)),
+        
     }
 }
 const mapStateToProps = state => {
-    return { chart: state.chart }
+    return { chart: state.chart, modal:state.modal }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Chart))

@@ -7,7 +7,9 @@ import {
   GET_PRODUCT_BY_ID_REQUEST, GET_PRODUCT_BY_ID_SUCCESS, GET_PRODUCT_BY_ID_FAILURE,
   ADD_ORDER_REQUEST, ADD_ORDER_SUCCESS, ADD_ORDER_FAILURE,
   ADD_CART_REQUEST,
-  UPDATE_CART_REQUEST
+  UPDATE_CART_REQUEST,
+  OPEN_MODAL_REQUEST,
+  CLOSE_MODAL_REQUEST
 } from '../constants/action-types';
 
 const initialState = {
@@ -18,7 +20,9 @@ const initialState = {
   categories: [],
   token: "undefined",
   login: false,
+  customer_id:undefined,
   chart: [],
+  modal:false
 };
 
 function rootReducer(state = initialState, action) {
@@ -76,7 +80,13 @@ function rootReducer(state = initialState, action) {
       return { ...state, chart: [...state.chart,action.payload] };
     
     case UPDATE_CART_REQUEST:
-      return { ...state, chart: action.payload };
+      return { ...state, chart: action.payload, modal:true };
+
+    case OPEN_MODAL_REQUEST:
+      return { ...state, modal: true };
+
+    case CLOSE_MODAL_REQUEST:
+      return { ...state, modal:false };
 
     default:
       return state;
