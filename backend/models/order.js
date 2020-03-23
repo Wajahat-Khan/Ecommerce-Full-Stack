@@ -1,47 +1,29 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-  const orders = sequelize.define('orders',{
+  const orders = sequelize.define('orders', {
     order_id: {
-      type: DataTypes.INTEGER,
+      allowNull: false,
+      autoIncrement: true,
       primaryKey: true,
-      autoIncrement: true
+      type: DataTypes.INTEGER
     },
     customer_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: "Customer",
+        model: "customers",
         key: "customer_id"
       }
     },
-    product_id: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      references: {
-        model: "products",
-        key: "product_id"
-      }
+    order_date: {
+      type: DataTypes.DATE
     },
-    size: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    color: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    quantity: {
-      type: DataTypes.INTEGER,
-      allowNull: false
-    },
-    order_date: { type: DataTypes.DATE, allowNull: false },
-    total_price: { type: DataTypes.DECIMAL, allowNull: false }
-  },
-  {timestamps:false}
-  
-  );
+    total_price: {
+      type: DataTypes.DECIMAL
+    }
+  },  {timestamps:false});
   orders.associate = function(models) {
-    // associations can be defined here
+    orders.hasMany(models.ordered_products,{ foreignKey: 'order_id'});
   };
   return orders;
 };

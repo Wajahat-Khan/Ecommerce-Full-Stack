@@ -1,7 +1,7 @@
 "use strict";
 module.exports = (sequelize, DataTypes) => {
-  const customer = sequelize.define(
-    "customer",
+  const customers = sequelize.define(
+    "customers",
     {
       customer_id: {
         type: DataTypes.INTEGER,
@@ -23,8 +23,8 @@ module.exports = (sequelize, DataTypes) => {
     },
     {timestamps:false}
   );
-  customer.associate = function(models) {
-    // associations can be defined here
+  customers.associate = function(models) {
+    customer.hasMany(models.orders,{ foreignKey: 'customer_id'});
   };
-  return customer;
+  return customers;
 };

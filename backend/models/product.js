@@ -21,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
   );
   product.associate = function(models) {
     product.hasMany(models.product_attributes,{ foreignKey: 'product_id'});
-    product.hasMany(models.orders,{ foreignKey: 'product_id'});
+    product.hasMany(models.ordered_products,{ foreignKey: 'product_id'});
   };
   return product;
 };

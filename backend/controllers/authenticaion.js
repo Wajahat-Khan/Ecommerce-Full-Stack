@@ -1,5 +1,5 @@
 require('dotenv').config();
-const customer = require('../models').customer;
+const customer = require('../models').customers;
 
 
 // JWT implementation
