@@ -41,7 +41,7 @@ render(){
         <Form>
         <Form.Group >
           <Form.Label>Username</Form.Label>
-          <Form.Control type="email" placeholder="Enter email" id ="username" onChange={this.handleChange}/>
+          <Form.Control type="text" placeholder="Enter username" id ="username" onChange={this.handleChange}/>
           <Form.Text className="text-muted">
            Please enter your username
           </Form.Text>
@@ -52,8 +52,11 @@ render(){
           <Form.Control type="password" placeholder="Password" id="password" onChange={this.handleChange} />
         </Form.Group>
         <Button variant="primary" type="submit" style={{width:"100%"}} onClick={this.send}>
-          Submit
+          Sign In
         </Button>
+        <Link to='/signup'><Button variant="success" type="submit" style={{marginTop:"2%", float:"right"}}>
+          Create Account
+        </Button></Link>
        
       </Form>
       </Container>

@@ -8,7 +8,8 @@ import {
   UPDATE_CART_REQUEST,
   OPEN_MODAL_REQUEST,
   CLOSE_MODAL_REQUEST,
-  SIGN_OUT_REQUEST
+  SIGN_OUT_REQUEST,
+  SIGN_UP_REQUEST
 } from "../constants/action-types";
 
 export function getProducts(payload) {
@@ -55,4 +56,8 @@ export function openModal(payload) {
 }
 export function closeModal(payload) {
   return { type: CLOSE_MODAL_REQUEST, payload };
+}
+
+export function signUp(payload) {
+  return { type: SIGN_UP_REQUEST, payload };
 }

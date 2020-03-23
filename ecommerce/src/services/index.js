@@ -71,6 +71,20 @@ const API = {
                 return Promise.reject(error);
             });
     },
+    createUser : post => {
+        return axios
+            .post(constants.url + 'signup',{
+                name: post.name,
+                email: post.email,
+                password:post.password
+            })
+            .then(response => {
+                return Promise.resolve(response.data);
+            })
+            .catch(error => {
+                return Promise.reject(error);
+            });
+    },
     addOrder: post=>{
         console.log(post)
         return axios

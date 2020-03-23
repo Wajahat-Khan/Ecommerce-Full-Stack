@@ -22,7 +22,10 @@ class User extends React.Component {
             </div>)
         }
         else{
-            return( <Link to='/login'><Button variant="outline-success" className=" mr-sm-2" >Log In</Button></Link>)
+            return( <div>
+                <Link to='/signup'><Button variant="outline-success" className=" mr-sm-2" >Sign Up</Button>
+                </Link>
+                <Link to='/login'><Button variant="outline-warning" className=" mr-sm-2" >Log In</Button></Link></div>)
         }
     }
 }

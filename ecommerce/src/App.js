@@ -8,6 +8,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 import LandingPage from '../src/components/LandingPage';
 import Login from '../src/components/Login'
+import SignUp from '../src/components/SignUp'
 import Product from '../src/components/Product'
 import Checkout from '../src/components/Checkout';
 
@@ -22,6 +23,7 @@ class App extends React.Component {
           <Route exact path="/" component={LandingPage} />
           <Route exact path="/products/:id" component={Product} />
           <Route exact path="/login" component={Login} />
+          <Route exact path="/signup" component={SignUp} />
           <Route exact path="/checkout" component={Checkout} />
         </BrowserRouter>
       </Provider>

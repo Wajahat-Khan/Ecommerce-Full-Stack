@@ -10,7 +10,8 @@ import {
   UPDATE_CART_REQUEST,
   OPEN_MODAL_REQUEST,
   CLOSE_MODAL_REQUEST,
-  SIGN_OUT_REQUEST
+  SIGN_OUT_REQUEST,
+  SIGN_UP_REQUEST, SIGN_UP_SUCCESS, SIGN_UP_FAILURE
 } from '../constants/action-types';
 
 const initialState = {
@@ -21,10 +22,11 @@ const initialState = {
   categories: [],
   token: undefined,
   login: false,
-  customer_id:undefined,
-  customer_name:undefined,
+  customer_id: undefined,
+  customer_name: undefined,
   chart: [],
-  modal:false
+  modal: false,
+  signup: false
 };
 
 function rootReducer(state = initialState, action) {
@@ -60,7 +62,7 @@ function rootReducer(state = initialState, action) {
 
 
     case LOGIN_SUCCESS:
-      return { ...state, token: action.payload.token, login: action.payload.success, customer_id:action.payload.customer_id,customer_name:action.payload.name };
+      return { ...state, token: action.payload.token, login: action.payload.success, customer_id: action.payload.customer_id, customer_name: action.payload.name };
     case LOGIN_FAILURE:
       return { ...state, login: false }
 
@@ -79,20 +81,27 @@ function rootReducer(state = initialState, action) {
       return { ...state, errorMessage: 'Failed adding posts', error: true };
 
     case ADD_CART_REQUEST:
-      return { ...state, chart: [...state.chart,action.payload] };
-    
+      return { ...state, chart: [...state.chart, action.payload] };
+
     case UPDATE_CART_REQUEST:
-      return { ...state, chart: action.payload, modal:true };
+      return { ...state, chart: action.payload, modal: true };
 
     case OPEN_MODAL_REQUEST:
       return { ...state, modal: true };
 
     case CLOSE_MODAL_REQUEST:
-      return { ...state, modal:false };
+      return { ...state, modal: false };
 
     case SIGN_OUT_REQUEST:
-      return { ...state, token: undefined, login: false, customer_id:undefined,customer_name:undefined };
-      
+      return { ...state, token: undefined, login: false, customer_id: undefined, customer_name: undefined,signup:false  };
+
+
+    case SIGN_UP_REQUEST:
+      return { ...state, signup:false };
+    case SIGN_UP_SUCCESS:
+      return { ...state, signup:true };
+    case SIGN_UP_FAILURE:
+      return { ...state, errorMessage: 'Failed adding posts', error: true };
     default:
       return state;
   }
