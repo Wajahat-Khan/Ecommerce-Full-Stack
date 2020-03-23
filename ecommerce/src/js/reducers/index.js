@@ -9,7 +9,8 @@ import {
   ADD_CART_REQUEST,
   UPDATE_CART_REQUEST,
   OPEN_MODAL_REQUEST,
-  CLOSE_MODAL_REQUEST
+  CLOSE_MODAL_REQUEST,
+  SIGN_OUT_REQUEST
 } from '../constants/action-types';
 
 const initialState = {
@@ -21,6 +22,7 @@ const initialState = {
   token: undefined,
   login: false,
   customer_id:undefined,
+  customer_name:undefined,
   chart: [],
   modal:false
 };
@@ -58,7 +60,7 @@ function rootReducer(state = initialState, action) {
 
 
     case LOGIN_SUCCESS:
-      return { ...state, token: action.payload.token, login: action.payload.success, customer_id:action.payload.customer_id };
+      return { ...state, token: action.payload.token, login: action.payload.success, customer_id:action.payload.customer_id,customer_name:action.payload.name };
     case LOGIN_FAILURE:
       return { ...state, login: false }
 
@@ -88,6 +90,9 @@ function rootReducer(state = initialState, action) {
     case CLOSE_MODAL_REQUEST:
       return { ...state, modal:false };
 
+    case SIGN_OUT_REQUEST:
+      return { ...state, token: undefined, login: false, customer_id:undefined,customer_name:undefined };
+      
     default:
       return state;
   }

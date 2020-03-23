@@ -21,7 +21,7 @@ createUser = async ({name, email, password}) => {
 
 validate = async (body)=>{
     const user= await customer.findOne({
-        attributes: ['password','customer_id'], where: {
+        attributes: ['password','customer_id','name'], where: {
             name: body.username
         }
     })
@@ -38,6 +38,7 @@ validate = async (body)=>{
             );
             // return the JWT token for the future API calls
             return {
+                name:user.name,
                 customer_id:user.customer_id,
                 success: true,
                 message: 'Authentication successful!',

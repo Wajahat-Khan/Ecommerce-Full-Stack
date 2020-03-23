@@ -7,7 +7,8 @@ import {
   ADD_CART_REQUEST,
   UPDATE_CART_REQUEST,
   OPEN_MODAL_REQUEST,
-  CLOSE_MODAL_REQUEST
+  CLOSE_MODAL_REQUEST,
+  SIGN_OUT_REQUEST
 } from "../constants/action-types";
 
 export function getProducts(payload) {
@@ -28,6 +29,11 @@ export function getConfigurations(payload) {
 export function login(payload) {
   return { type: LOGIN_REQUEST, payload };
 }
+
+export function signOut(payload) {
+  return { type: SIGN_OUT_REQUEST, payload };
+}
+
 export function searchProducts(payload) {
   return { type: SEARCH_REQUEST, payload };
 }

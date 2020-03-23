@@ -20,7 +20,7 @@ class App extends React.Component {
       <Provider store={store}>
         <BrowserRouter>
           <Route exact path="/" component={LandingPage} />
-          <Route exact path="/:id" component={Product} />
+          <Route exact path="/products/:id" component={Product} />
           <Route exact path="/login" component={Login} />
           <Route exact path="/checkout" component={Checkout} />
         </BrowserRouter>

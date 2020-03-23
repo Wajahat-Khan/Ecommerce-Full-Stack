@@ -70,7 +70,7 @@ class Product extends React.Component {
     }
     render() {
         const { product} = this.props;
-        if (!product) {
+        if (product==null) {
             return (
                 <div className="spin"><Spinner animation="grow" size="lg" /></div>
             )
@@ -82,7 +82,7 @@ class Product extends React.Component {
                     <Link to='/'> <Navbar.Brand  >Full Stack Challenge</Navbar.Brand></Link>
                     <Navbar.Collapse className="justify-content-end">
                     <Button variant="outline-warning" className=" mr-sm-2" onClick={this.chart}>Chart</Button>
-                    <Link to='/checkout'><Button variant="outline-danger" onClick={this.checkout}>Checkout</Button></Link>
+                    <Link to="/checkout"><Button variant="outline-danger" >Checkout</Button></Link>
                     </Navbar.Collapse>
                 </Navbar>
                 <Chart show={this.props.modal} close={this.props.closeModal} />
@@ -113,7 +113,7 @@ class Product extends React.Component {
 
                             </Row>
                             <Row>
-                            <Button variant="outline-success" className="options" onClick={this.addChart}>Add To Cart</Button>
+                           <Button variant="outline-success" className="options" onClick={this.addChart}>Add To Cart</Button>
                             </Row>
                         </Col>
                     </Row>

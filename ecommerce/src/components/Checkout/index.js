@@ -12,7 +12,8 @@ class Checkout extends React.Component {
     componentDidMount = () => {}
 
     render(){
-        if(this.props.login==="false"){
+        console.log(this.props.login)
+        if(this.props.login==false){
             return(<Redirect to="/login" />)
         }
         return(<h2>hello</h2>)

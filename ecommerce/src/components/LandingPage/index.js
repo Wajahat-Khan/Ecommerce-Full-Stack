@@ -7,6 +7,7 @@ import {
   Container, Col, Row,Image,Spinner
 } from 'react-bootstrap';
 import '../LandingPage/LandingPage.css'
+import User from '../User'
 
 class LandingPage extends React.Component {
   constructor(props) {
@@ -90,12 +91,7 @@ class LandingPage extends React.Component {
       }
     }
 
-    login = e=>{
 
-           return  (<Redirect  to='/' />)
-       
-     
-  }
   render() {
     const { products } = this.props;
     const { attributes } = this.props;
@@ -126,9 +122,8 @@ class LandingPage extends React.Component {
          
         </Navbar.Collapse>
         <Navbar.Collapse className="justify-content-end">
-        <Link to='/login'><Button variant="outline-success" className=" mr-sm-2" onClick={this.login}>Log In</Button></Link>
-                   
-                    </Navbar.Collapse>
+          <User />
+        </Navbar.Collapse>
       </Navbar>
       <br></br>
       <div className="filter-row">
@@ -186,7 +181,7 @@ class LandingPage extends React.Component {
             products.map(p=>(
               
                 <div className="products" key={p.product_id}>
-                  <Link to={`/${p.product_id}`}>
+                  <Link to={`/products/${p.product_id}`}>
                   <Row className="justify-content-md-center">
                  <Image className="product-image" src="https://thestore.pk/image/data/PSL/%5E27B55BDA5A8A2F5DAE03EDEC5574AAB5F58C19383084404102%5Epimgpsh_fullsize_distr.jpg" />
                   </Row></Link>
