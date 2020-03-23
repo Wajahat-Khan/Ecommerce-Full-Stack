@@ -4,7 +4,8 @@ import {
   SEARCH_REQUEST,
   GET_PRODUCT_BY_ID_REQUEST,
   ADD_ORDER_REQUEST,
-  ADD_CART_REQUEST
+  ADD_CART_REQUEST,
+  UPDATE_CART_REQUEST
 } from "../constants/action-types";
 
 export function getProducts(payload) {
@@ -35,4 +36,8 @@ export function addOrder(payload) {
 
 export function addChart(payload) {
   return { type: ADD_CART_REQUEST, payload };
+}
+
+export function updateChart(payload) {
+  return { type: UPDATE_CART_REQUEST, payload };
 }

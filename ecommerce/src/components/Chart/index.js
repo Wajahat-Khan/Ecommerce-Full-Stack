@@ -3,6 +3,7 @@ import { Modal, Button, Row, Col, Image } from 'react-bootstrap';
 import { withRouter, Link } from "react-router-dom";
 import { connect } from 'react-redux';
 import '../Chart/Chart.css'
+import { updateChart } from '../../js/actions';
 
 class Chart extends React.Component {
     constructor(props) {
@@ -35,6 +36,29 @@ class Chart extends React.Component {
             </Modal>
         );
     }
+
+    increase = e =>{
+        const {chart}=this.props;
+        let index=parseInt(e.target.id);
+        chart[index].quantity+=1;
+        this.props.updateChart(chart);
+    }
+    decrease = e =>{
+        const {chart}=this.props;
+        let index=parseInt(e.target.id);
+        chart[index].quantity-=1;
+        this.props.updateChart(chart);
+    }
+    quantityInput =e =>{
+        console.log(e.target.id)
+    }
+    removeProduct =e=>{
+        const {chart}=this.props;
+        let index=parseInt(e.target.id);
+       chart.splice(index,1);
+        this.props.updateChart(chart);
+        return;
+    }
     render(props) {
         const { chart } = this.props;
         if (chart.length === 0) {
@@ -53,41 +77,54 @@ class Chart extends React.Component {
                 </Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        <Row>
-                            <Col md={4}><b>Item</b></Col>
-                            <Col md={1} className="header"><b>Size</b></Col>
-                            <Col md={4} className="header"><b>Quantity</b></Col>
-                            <Col md={1} className="header"><b>Price</b></Col>
-                        </Row >
-                        {
-                            chart.map((ch,i) => (
-                                <div>
-                                    <Row >
-                                        <Col md={4}>
-                                            <Row>
-                                                <Col md={4}>
-                                                    <Image className="chart-img" src="https://thestore.pk/image/data/PSL/%5E27B55BDA5A8A2F5DAE03EDEC5574AAB5F58C19383084404102%5Epimgpsh_fullsize_distr.jpg" />
-                                                </Col><Col md={8}>   {ch.product.name}
-                                                </Col></Row>
+                        <table>
+                             <col width="150"></col>
+                            <col width="20"></col>
+                            <col width="100"></col>
+                            <col width="20"></col>
+                            <tr>
+                                <th>Item</th>
+                                <th>Size</th>
+                                <th>Quantity</th>
+                                <th>Price</th>
+                            </tr>
+                            {
+                                chart.map((ch,i)=>(
+                                    
+                                    <tr key={ch.product_id}>
+                                       
+                                        <td key={ch.product.name}>
+                                        <Row>
+                                        <Col md={3}>
+                                        <Image className="chart-img" src="https://thestore.pk/image/data/PSL/%5E27B55BDA5A8A2F5DAE03EDEC5574AAB5F58C19383084404102%5Epimgpsh_fullsize_distr.jpg" />
                                         </Col>
-                                        <Col md={1} className="header">{ch.size}</Col>
-                                        <Col md={4} >
-                                            <div className="chart-quantity">
-                                                <div className="input-group">
-                                                    <input type="button" value="-" className="button-minus" data-field="quantity" />
-                                                    <input type="number" step="1" value={ch.quantity} name="quantity" className="quantity-field" />
-                                                    <input type="button" value="+" className="button-plus" data-field="quantity" />
-                                                </div>
-                                            </div>
-                                        </Col>
-                                        <Col md={1} className="header">{ch.total_price}</Col>
-                                    </Row>
-                                    <br></br>
+                                        <Col className="prod-details">
+                                         <h2 style={{marginLeft:"2%"}}>{ch.product.name}</h2>
+                                         <Button variant="outline-danger" id={i} className="options" onClick={this.removeProduct}>Remove</Button>
+                                         </Col>
+                                         
+                                        </Row>
+                                        </td>
+
+                                        <td key={ch.size}>
+                                        <h2 >{ch.size}</h2>
+                                        </td>
+
+                                        <td className="chart-q" key={i}> 
+                                        <div className="input-group">
+                                    <input type="button" id={i} value="-" className="button-minus" data-field="quantity" onClick={this.decrease} />
+                                    <input type="number" id={i} step="1" value={ch.quantity} name="quantity" className="quantity-field" onChange={this.quantityInput}/>
+                                    <input type="button" id={i} value="+" className="button-plus" data-field="quantity"  onClick={this.increase}/>
                                 </div>
-
-                            ))
-                        }
-
+                                        </td>
+                                        <td key={ch.total_price}>
+                                        <h2 >{ch.total_price}</h2>
+                                        </td>
+                                    </tr>
+                                ))
+                            }
+                           
+                        </table>
                     </Modal.Body>
                     <Modal.Footer>
                         <Button onClick={this.props.close}>Close</Button>
@@ -101,6 +138,7 @@ class Chart extends React.Component {
 }
 const mapDispatchToProps = dispatch => {
     return {
+        updateChart: payload => dispatch(updateChart(payload))
     }
 }
 const mapStateToProps = state => {

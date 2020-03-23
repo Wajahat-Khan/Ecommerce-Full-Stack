@@ -6,7 +6,8 @@ import {
   SEARCH_REQUEST, SEARCH_SUCCESS, SEARCH_FAILURE,
   GET_PRODUCT_BY_ID_REQUEST, GET_PRODUCT_BY_ID_SUCCESS, GET_PRODUCT_BY_ID_FAILURE,
   ADD_ORDER_REQUEST, ADD_ORDER_SUCCESS, ADD_ORDER_FAILURE,
-  ADD_CART_REQUEST
+  ADD_CART_REQUEST,
+  UPDATE_CART_REQUEST
 } from '../constants/action-types';
 
 const initialState = {
@@ -74,6 +75,8 @@ function rootReducer(state = initialState, action) {
     case ADD_CART_REQUEST:
       return { ...state, chart: [...state.chart,action.payload] };
     
+    case UPDATE_CART_REQUEST:
+      return { ...state, chart: action.payload };
 
     default:
       return state;

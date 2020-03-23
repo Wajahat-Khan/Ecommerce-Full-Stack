@@ -10,6 +10,32 @@
 width: 100%;
 height: 100%;
 }
-.chart-quantity{
-    align-items: center;
+.chart-q{
+    margin-left: 25%;
 }
+
+.prod-details{
+    float: left;
+    text-align: left;
+    
+}
+
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+    overflow: hidden;
+  }
+  
+   th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+  }
+  td{
+    border: 1px solid #dddddd;
+    text-align: center;
+ 
+    padding: 8px;
+  }
+ 
