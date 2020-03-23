@@ -1,5 +1,5 @@
 import React from "react";
-import { withRouter,Link } from "react-router-dom";
+import { withRouter,Link, Redirect } from "react-router-dom";
 import { connect } from 'react-redux';
 import { getConfigurations,getProducts,getProductsByCategory,searchProducts } from '../../js/actions';
 import {
@@ -89,6 +89,13 @@ class LandingPage extends React.Component {
         this.props.getProductsByCategory({categoryId, Gender, Color, Size, Sort});
       }
     }
+
+    login = e=>{
+
+           return  (<Redirect  to='/' />)
+       
+     
+  }
   render() {
     const { products } = this.props;
     const { attributes } = this.props;
@@ -118,6 +125,10 @@ class LandingPage extends React.Component {
           </Nav>
          
         </Navbar.Collapse>
+        <Navbar.Collapse className="justify-content-end">
+        <Link to='/login'><Button variant="outline-success" className=" mr-sm-2" onClick={this.login}>Log In</Button></Link>
+                   
+                    </Navbar.Collapse>
       </Navbar>
       <br></br>
       <div className="filter-row">

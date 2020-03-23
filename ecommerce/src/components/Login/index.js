@@ -1,8 +1,8 @@
 import React from "react";
-import { withRouter } from "react-router-dom";
+import { withRouter,Link } from "react-router-dom";
 import { connect } from 'react-redux';
 import {login} from '../../js/actions';
-import {Form,Button} from 'react-bootstrap';
+import {Form,Button,Navbar, Container} from 'react-bootstrap';
 
 class Login extends React.Component{
     constructor(props){
@@ -10,9 +10,6 @@ class Login extends React.Component{
         this.state={login:false, token:undefined, username: undefined, password:undefined};
     }
 
-    componentDidMount=()=>{
-        this.props.login();
-    }
 
     handleChange = event => {
         this.setState({ [event.target.id]: event.target.value });
@@ -23,13 +20,26 @@ class Login extends React.Component{
   
     const username = this.state.username;
     const password = this.state.password;
-    this.props.login({ username, password });
+    this.props.loginReq({ username, password });
     };
 render(){
     const {login}=this.props;
     const {token}=this.props;
-    
+ 
+    if(Login==="false"){
+      return (<div>
+        <Navbar bg="dark" variant="dark" className="nav">
+        <Link to='/'> <Navbar.Brand  >Full Stack Challenge</Navbar.Brand></Link>
+    </Navbar>
+    <h2>Already Logged In</h2>
+    </div>)
+    }
     return(
+      <div>
+        <Navbar bg="dark" variant="dark" className="nav">
+        <Link to='/'> <Navbar.Brand  >Full Stack Challenge</Navbar.Brand></Link>
+        </Navbar>
+        <Container>
         <Form>
         <Form.Group controlId="formBasicEmail">
           <Form.Label>Username</Form.Label>
@@ -50,13 +60,14 @@ render(){
            Login {login}
           </Form.Text>
       </Form>
-      
+      </Container>
+      </div>
     )
   }
 }
 
 const mapDispatchToProps=dispatch=>{
-    return {login: payload => dispatch(login(payload)) }   
+    return {loginReq: payload => dispatch(login(payload)) }   
 }
 const mapStateToProps = state => {
     return { token: state.token, login:state.login}

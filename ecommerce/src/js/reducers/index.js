@@ -18,7 +18,7 @@ const initialState = {
   attributes: [],
   attributes_values: [],
   categories: [],
-  token: "undefined",
+  token: undefined,
   login: false,
   customer_id:undefined,
   chart: [],
@@ -58,7 +58,7 @@ function rootReducer(state = initialState, action) {
 
 
     case LOGIN_SUCCESS:
-      return { ...state, token: action.payload.token, login: action.payload.success };
+      return { ...state, token: action.payload.token, login: action.payload.success, customer_id:action.payload.customer_id };
     case LOGIN_FAILURE:
       return { ...state, login: false }
 

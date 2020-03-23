@@ -1,5 +1,5 @@
 import React from "react";
-import { withRouter, Link } from "react-router-dom";
+import { withRouter, Link,Redirect } from "react-router-dom";
 import { connect } from 'react-redux';
 import { getProductById } from '../../js/actions';
 import '../Product/Product.css';
@@ -68,12 +68,6 @@ class Product extends React.Component {
     chart= e=>{
          this.props.openModal()
     }
-
-    checkout = e=>{
-            console.log(localStorage.getItem('token'));
-         console.log(localStorage.getItem('login'));
-         
-    }
     render() {
         const { product} = this.props;
         if (!product) {
@@ -88,7 +82,7 @@ class Product extends React.Component {
                     <Link to='/'> <Navbar.Brand  >Full Stack Challenge</Navbar.Brand></Link>
                     <Navbar.Collapse className="justify-content-end">
                     <Button variant="outline-warning" className=" mr-sm-2" onClick={this.chart}>Chart</Button>
-                    <Button variant="outline-danger" onClick={this.checkout}>Checkout</Button>
+                    <Link to='/checkout'><Button variant="outline-danger" onClick={this.checkout}>Checkout</Button></Link>
                     </Navbar.Collapse>
                 </Navbar>
                 <Chart show={this.props.modal} close={this.props.closeModal} />
