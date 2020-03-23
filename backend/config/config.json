@@ -1,9 +1,9 @@
 {
     "development": {
-      "username": "node_training",
-      "password": "postgres",
-      "database": "wajahatFS",
-      "host": "postgres-furqan.cdrfajzocnzf.us-east-1.rds.amazonaws.com",
+      "username": "postgres",
+      "password": "wajahat",
+      "database": "WajahatFS",
+      "host": "127.0.0.1",
       "dialect": "postgres",
       "operatorsAliases": false
     },
