@@ -16,6 +16,27 @@ module.exports = {
           key: "customer_id"
         }
       },
+      first_name:{
+        type:Sequelize.STRING
+      },
+      last_name:{
+        type:Sequelize.STRING
+      },
+      address:{
+        type:Sequelize.STRING
+      },
+      city:{
+        type:Sequelize.STRING
+      },
+      state:{
+        type:Sequelize.STRING
+      },
+      zip_code:{
+        type:Sequelize.STRING
+      },
+      region:{
+        type:Sequelize.STRING
+      },
       order_date: {
         type: Sequelize.DATE
       },

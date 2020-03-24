@@ -7,7 +7,7 @@ import {Form,Button,Navbar, Container} from 'react-bootstrap';
 class Login extends React.Component{
     constructor(props){
         super(props);
-        this.state={login:false, token:undefined, username: undefined, password:undefined};
+        this.state={login:false, token:undefined, email: undefined, password:undefined};
     }
 
 
@@ -18,9 +18,9 @@ class Login extends React.Component{
   send = e => {
     e.preventDefault();
   
-    const username = this.state.username;
+    const email = this.state.email;
     const password = this.state.password;
-    this.props.loginReq({ username, password });
+    this.props.loginReq({ email, password });
     };
 render(){
     const {login}=this.props;
@@ -40,11 +40,9 @@ render(){
         <h1 class="display-4" style={{textAlign:"center"}}>SIGN IN</h1>
         <Form>
         <Form.Group >
-          <Form.Label>Username</Form.Label>
-          <Form.Control type="text" placeholder="Enter username" id ="username" onChange={this.handleChange}/>
-          <Form.Text className="text-muted">
-           Please enter your username
-          </Form.Text>
+          <Form.Label>Email</Form.Label>
+          <Form.Control type="text" placeholder="Email" id ="email" onChange={this.handleChange}/>
+          
         </Form.Group>
       
         <Form.Group>

@@ -45,17 +45,13 @@ render(){
         <Form.Group >
           <Form.Label>Full Name</Form.Label>
           <Form.Control type="text" placeholder="Enter name" id ="name" onChange={this.handleChange}/>
-          <Form.Text className="text-muted">
-           Please enter your full name
-          </Form.Text>
+         
         </Form.Group>
         
         <Form.Group >
           <Form.Label>Email</Form.Label>
           <Form.Control type="email" placeholder="Enter email" id ="email" onChange={this.handleChange}/>
-          <Form.Text className="text-muted">
-           Please enter your username
-          </Form.Text>
+          
         </Form.Group>
 
         <Form.Group>

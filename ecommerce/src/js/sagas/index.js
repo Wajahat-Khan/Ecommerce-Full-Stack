@@ -6,7 +6,8 @@ import { GET_PRODUCTS_REQUEST,GET_PRODUCTS_SUCCESS,GET_PRODUCTS_FAILURE,
     SEARCH_REQUEST,SEARCH_SUCCESS,SEARCH_FAILURE,
     GET_PRODUCT_BY_ID_REQUEST,GET_PRODUCT_BY_ID_SUCCESS,GET_PRODUCT_BY_ID_FAILURE,
     ADD_ORDER_REQUEST,ADD_ORDER_SUCCESS,ADD_ORDER_FAILURE,
-    SIGN_UP_REQUEST,SIGN_UP_SUCCESS,SIGN_UP_FAILURE
+    SIGN_UP_REQUEST,SIGN_UP_SUCCESS,SIGN_UP_FAILURE,
+    ADD_ORDER_ITEM_REQUEST, ADD_ORDER_ITEM_SUCCESS, ADD_ORDER_ITEM_FAILURE
 } from '../constants/action-types';
 
     import API from '../../services';
@@ -88,6 +89,16 @@ function* handleSignUp(action) {
         yield put({type: SIGN_UP_FAILURE})
     }
 }
+
+function* handleOrderItem(action) {
+    try {
+        const item = yield call(API.addOrderedItems, action.payload);
+        yield put({type:ADD_ORDER_ITEM_SUCCESS, payload: item})
+    }
+    catch (error) {
+        yield put({type: ADD_ORDER_ITEM_FAILURE })
+    }
+}
 function* rootSaga() {
     yield takeEvery(GET_PRODUCTS_REQUEST, handleProductsSaga);
     yield takeEvery(GET_CONFIGS_REQUEST, handleConfigurations);
@@ -97,6 +108,7 @@ function* rootSaga() {
     yield takeEvery(GET_PRODUCT_BY_ID_REQUEST, handleProductById);
     yield takeEvery(ADD_ORDER_REQUEST, handleAddOrder);
     yield takeEvery(SIGN_UP_REQUEST, handleSignUp);
+    yield takeEvery(ADD_ORDER_ITEM_REQUEST, handleOrderItem);
 }
 
 export default rootSaga;

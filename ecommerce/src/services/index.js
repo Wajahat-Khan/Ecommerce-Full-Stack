@@ -59,9 +59,10 @@ const API = {
             });
     },
     login : post => {
+        console.log(post)
         return axios
             .post(constants.url + 'login',{
-                username: post.username,
+                email: post.email,
                 password: post.password
             })
             .then(response => {
@@ -89,13 +90,34 @@ const API = {
         console.log(post)
         return axios
             .post(constants.url + 'order',{
-                customer_id:post.customer_id, 
-                product_id:post.product_id, 
-                size:post.size, 
-                color:post.color, 
-                quantity:post.quantity, 
+                customer_id:post.customer_id,
+                first_name:post.first_name,
+                last_name:post.last_name,
+                address:post.address ,
+                city:post.city, 
+                state:post.state, 
+                zip_code:post.zip_code, 
+                region:post.region, 
                 order_date:post.order_date, 
                 total_price:post.total_price
+            })
+            .then(response => {
+                return Promise.resolve(response.data);
+            })
+            .catch(error => {
+                return Promise.reject(error);
+            });
+    },
+    addOrderedItems : load => {
+        let id = load.order_id;
+        return axios
+            .post(constants.url + 'order/'+`${id}`,{
+                order_id:load.order_id,
+                product_id:load.product_id,
+                size:load.size,
+                color:load.color,
+                quantity:load.quantity,
+                total_price:load.total_price
             })
             .then(response => {
                 return Promise.resolve(response.data);

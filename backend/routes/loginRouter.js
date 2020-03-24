@@ -5,7 +5,7 @@ const { validate } = require('../controllers/authenticaion');
 // Log in api
 router.post('/', async (req, res) => {
 
-    if (req.body.username && req.body.password) {
+    if (req.body.email && req.body.password) {
         const val = await validate(req.body);
         if (val.success === false) {
             res.status(404).send(val);

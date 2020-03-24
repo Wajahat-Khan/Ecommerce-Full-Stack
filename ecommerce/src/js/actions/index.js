@@ -9,7 +9,9 @@ import {
   OPEN_MODAL_REQUEST,
   CLOSE_MODAL_REQUEST,
   SIGN_OUT_REQUEST,
-  SIGN_UP_REQUEST
+  SIGN_UP_REQUEST,
+  ADD_ORDER_ITEM_REQUEST,
+  CLOSE_ORDER_COMPLETE_MODAL
 } from "../constants/action-types";
 
 export function getProducts(payload) {
@@ -43,6 +45,10 @@ export function addOrder(payload) {
   return { type: ADD_ORDER_REQUEST, payload };
 }
 
+export function addOrderedItem(payload) {
+  return { type: ADD_ORDER_ITEM_REQUEST, payload };
+}
+
 export function addChart(payload) {
   return { type: ADD_CART_REQUEST, payload };
 }
@@ -60,4 +66,8 @@ export function closeModal(payload) {
 
 export function signUp(payload) {
   return { type: SIGN_UP_REQUEST, payload };
+}
+
+export function closeOrderComplete(payload) {
+  return { type: CLOSE_ORDER_COMPLETE_MODAL, payload };
 }

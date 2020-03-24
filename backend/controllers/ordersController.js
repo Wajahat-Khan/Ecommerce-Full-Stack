@@ -1,9 +1,9 @@
 const orders = require('../models').orders;
 const ordered_products = require('../models').ordered_products;
 
-createOrder = async (customer_id, order_date, total_price) => {
+createOrder = async (customer_id,first_name,last_name,address,city,state,zip_code,region, order_date, total_price) => {
     const order = await orders.create({
-        customer_id, order_date, total_price
+        customer_id,first_name,last_name,address,city,state,zip_code,region, order_date, total_price
     })
     return order;
 }

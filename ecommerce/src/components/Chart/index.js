@@ -41,6 +41,7 @@ class Chart extends React.Component {
         const {chart}=this.props;
         let index=parseInt(e.target.id);
         chart[index].quantity+=1;
+        chart[index].total_price=(chart[index].quantity * chart[index].product.price).toFixed(2)
         this.props.updateChart(chart);
         this.forceUpdate();
 
@@ -51,6 +52,7 @@ class Chart extends React.Component {
         let index=parseInt(e.target.id);
         if(chart[index].quantity>1){
         chart[index].quantity-=1;
+        chart[index].total_price=(chart[index].quantity * chart[index].product.price).toFixed(2)
         this.props.updateChart(chart);
         this.forceUpdate();
         }

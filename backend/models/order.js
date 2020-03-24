@@ -15,6 +15,27 @@ module.exports = (sequelize, DataTypes) => {
         key: "customer_id"
       }
     },
+    first_name:{
+      type:DataTypes.STRING
+    },
+    last_name:{
+      type:DataTypes.STRING
+    },
+    address:{
+      type:DataTypes.STRING
+    },
+    city:{
+      type:DataTypes.STRING
+    },
+    state:{
+      type:DataTypes.STRING
+    },
+    zip_code:{
+      type:DataTypes.STRING
+    },
+    region:{
+      type:DataTypes.STRING
+    },
     order_date: {
       type: DataTypes.DATE
     },

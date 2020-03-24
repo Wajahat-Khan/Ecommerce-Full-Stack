@@ -22,7 +22,7 @@ createUser = async ({name, email, password}) => {
 validate = async (body)=>{
     const user= await customer.findOne({
         attributes: ['password','customer_id','name'], where: {
-            name: body.username
+            email: body.email
         }
     })
     
@@ -30,7 +30,7 @@ validate = async (body)=>{
         console.log(`${process.env.SECRET_JWT}`)
         const pass = cryptr.decrypt(user.password);
         if (pass === body.password) {
-            let token = jwt.sign({ username: body.username },
+            let token = jwt.sign({ username: body.email },
                 key,
                 {
                     expiresIn: '24h' // expires in 24 hours
