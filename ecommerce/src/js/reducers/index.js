@@ -89,8 +89,11 @@ function rootReducer(state = initialState, action) {
         return { ...state, order_state:false, order_id:undefined};
     case ADD_ORDER_ITEM_REQUEST:
       return { ...state };
-    case ADD_ORDER_ITEM_SUCCESS:
-      return {...state, order_id:undefined,chart:[]}      
+    case ADD_ORDER_ITEM_SUCCESS:{
+        //let newChart=state.chart.slice();
+
+      return {...state, order_id:undefined,chart:state.chart.filter((i,index)=>i.product_id != action.payload.product_id)} 
+    }     
     case ADD_ORDER_ITEM_FAILURE:
       return { ...state };
 
