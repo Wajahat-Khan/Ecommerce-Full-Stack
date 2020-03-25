@@ -21,7 +21,7 @@ render()
         <Row className="justify-content-md-center">
           { 
            products.map(p=>(
-               <Col md={2} sm={3} className="products">
+               <Col md={2} sm={3} className="products" key={p.product_id}>
                 <Card key={p.product_id}><Card.Body>
                 <Link to={`/products/${p.product_id}`}>
                   <Row className="justify-content-md-center">

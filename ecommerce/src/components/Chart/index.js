@@ -3,16 +3,13 @@ import { Modal, Button, Row, Col, Image } from 'react-bootstrap';
 import { withRouter, Link } from "react-router-dom";
 import { connect } from 'react-redux';
 import '../Chart/Chart.css'
-import { updateChart, openModal,closeModal } from '../../js/actions';
+import { updateChart } from '../../js/actions';
 
 class Chart extends React.Component {
     constructor(props) {
         super(props);
-        console.log(this.props)
     }
-    componentDidMount = () => {
 
-    }
     emptyChart = () => {
         return (
             <Modal
@@ -44,8 +41,6 @@ class Chart extends React.Component {
         chart[index].total_price=(chart[index].quantity * chart[index].product.price).toFixed(2)
         this.props.updateChart(chart);
         this.forceUpdate();
-
-    
     }
     decrease = e =>{
         const {chart}=this.props;
@@ -58,7 +53,7 @@ class Chart extends React.Component {
         }
     }
     quantityInput =e =>{
-        console.log(e.target.id)
+        
     }
     removeProduct =e=>{
         const {chart}=this.props;
@@ -86,7 +81,7 @@ class Chart extends React.Component {
                     </Modal.Header>
                     <Modal.Body>
                         <table>
-                             <col width="150"></col>
+                            <col width="150"></col>
                             <col width="20"></col>
                             <col width="20"></col>
                             <col width="100"></col>
@@ -106,7 +101,7 @@ class Chart extends React.Component {
                                         <td key={ch.product.name}>
                                         <Row>
                                         <Col md={3}>
-                                        <Image className="chart-img" src="https://thestore.pk/image/data/PSL/%5E27B55BDA5A8A2F5DAE03EDEC5574AAB5F58C19383084404102%5Epimgpsh_fullsize_distr.jpg" />
+                                        <Image className="chart-img" src={`http://localhost:3002/${ch.product.image}`} />
                                         </Col>
                                         <Col className="prod-details">
                                          <h2 style={{marginLeft:"2%"}}>{ch.product.name}</h2>

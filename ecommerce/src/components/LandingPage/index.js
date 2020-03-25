@@ -1,22 +1,23 @@
 import React from "react";
-import { withRouter, Link, Redirect } from "react-router-dom";
+import { withRouter, Link} from "react-router-dom";
 import { connect } from 'react-redux';
 import { getConfigurations, getProducts, getProductsByCategory, searchProducts } from '../../js/actions';
 import {
-  Navbar, Nav, NavDropdown, Form, FormControl, Button, Dropdown, DropdownButton, Pagination,
-  Container, Col, Row, Image, Spinner, Card
-} from 'react-bootstrap';
-import '../LandingPage/LandingPage.css'
+  Navbar, Nav, Form, FormControl, Dropdown, DropdownButton, Pagination,
+  Container,  Row } from 'react-bootstrap';
+import '../LandingPage/LandingPage.css';
+
 import User from '../User';
 import AllProducts from '../AllProducts';
 import Paginations from '../Paginations';
+
 class LandingPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      activePage: 1, pages: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-      Gender: undefined, Color: undefined, Size: undefined, Sort: undefined, categoryId: undefined, q: undefined
-    };
+      activePage: 1,
+      Gender: undefined, Color: undefined, Size: undefined, Sort: undefined, 
+      categoryId: undefined, q: undefined, sortTitle:"", filterTitle:""};
   }
 
   componentDidMount = () => {
@@ -122,6 +123,7 @@ class LandingPage extends React.Component {
         <div className="filter-row">
           <Container fluid>
             <Row className="justify-content-md-center">
+            
               <h3 className="text-muted">Filters</h3>
               {
                 attributes.map(f => (
@@ -141,12 +143,12 @@ class LandingPage extends React.Component {
                 <Dropdown.Item id="Sort" key="DESC" eventKey='DESC'>High Price</Dropdown.Item>
                 <Dropdown.Item id="Sort" key="AESC" eventKey='AESC'>Low Price</Dropdown.Item>
                 <Dropdown.Item id="Sort" key="clear" eventKey='clear' className="clear">Clear</Dropdown.Item>
-
               </DropdownButton>
+
               <Form inline className="filters">
                 <FormControl type="text" placeholder="Search" className="mr-sm-2" onChange={this.search} />
-                <Button variant="outline-success" >Search</Button>
               </Form>
+            
             </Row>
           </Container>
         </div>
