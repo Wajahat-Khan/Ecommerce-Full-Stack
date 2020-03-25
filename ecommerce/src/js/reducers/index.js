@@ -18,7 +18,9 @@ import {
 
 
 const initialState = {
+
   products: [],
+
   product: null,
   attributes: [],
   attributes_values: [],

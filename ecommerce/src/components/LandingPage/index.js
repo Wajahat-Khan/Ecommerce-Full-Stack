@@ -7,8 +7,8 @@ import {
   Container, Col, Row,Image,Spinner,Card
 } from 'react-bootstrap';
 import '../LandingPage/LandingPage.css'
-import User from '../User'
-import { CardBody } from "react-bootstrap/Card";
+import User from '../User';
+import AllProducts from '../AllProducts';
 
 class LandingPage extends React.Component {
   constructor(props) {
@@ -94,18 +94,13 @@ class LandingPage extends React.Component {
 
 
   render() {
-    const { products } = this.props;
     const { attributes } = this.props;
     const { attributes_values } = this.props;
     const { categories } = this.props;
     const { activePage } = this.state;
     const { pages } = this.state;
     
-  if(products.length===0){
-    return (
-      <div className="spin"><Spinner animation="grow" size="lg"/></div>
-      )}
-  
+ 
   return (
     <div >
       <Navbar bg="dark" variant="dark" onSelect={this.categoryHandler}>
@@ -158,7 +153,6 @@ class LandingPage extends React.Component {
         </Row>
         </Container>
         </div>
-
         <Container>
         <Row className="justify-content-md-center pagination">
           <Col></Col>
@@ -176,42 +170,8 @@ class LandingPage extends React.Component {
           <Col></Col>
         </Row>
         </Container>
-        <Container fluid>
-         <Row className="justify-content-md-center">
-           { 
-            products.map(p=>(
-               
-                // <div className="products" key={p.product_id}>
-                //    <Card><Card.Body>
-                //   <Link to={`/products/${p.product_id}`}>
-                //   <Row className="justify-content-md-center">
-                //  <Image className="product-image" src={`http://localhost:3002/${p.image}`} />
-                //   </Row></Link>
-                //   <Row className="justify-content-md-center">{p.name}</Row>
-                //   <Row className="justify-content-md-center">${p.price}</Row>
-                //   <Row className="justify-content-md-center"><Link to={`/${p.product_id}`}><Button variant="info">Buy Now</Button></Link></Row>
-                //   </Card.Body></Card>
-                // </div>
-                <Col md={2} sm={3} className="products">
-                 <Card key={p.product_id}><Card.Body>
-                 <Link to={`/products/${p.product_id}`}>
-                   <Row className="justify-content-md-center">
-                 <Image className="product-image" src={`http://localhost:3002/${p.image}`} />
-                   </Row></Link>
-                   <Row className="justify-content-md-center">{p.name}</Row>
-                <Row className="justify-content-md-center">${p.price}</Row>
-                <Row className="justify-content-md-center"><Link to={`/products/${p.product_id}`}><Button variant="info">Buy Now</Button></Link></Row>
-                 </Card.Body></Card>
-                </Col>
-            
-            
-            
-                ))
-          }
-          
-          </Row>
-        </Container>
-
+        <AllProducts />
+       
     </div>
     )
   }
@@ -224,6 +184,6 @@ const mapDispatchToProps = dispatch => {
     searchProducts:payload=>dispatch(searchProducts(payload)) }
 }
 const mapStateToProps = state => {
-  return { products: state.products, categories: state.categories, attributes: state.attributes, attributes_values: state.attributes_values }
+  return { categories: state.categories, attributes: state.attributes, attributes_values: state.attributes_values }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(LandingPage))
