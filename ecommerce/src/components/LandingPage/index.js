@@ -4,10 +4,11 @@ import { connect } from 'react-redux';
 import { getConfigurations,getProducts,getProductsByCategory,searchProducts } from '../../js/actions';
 import {
   Navbar, Nav, NavDropdown, Form, FormControl, Button, Dropdown, DropdownButton, Pagination,
-  Container, Col, Row,Image,Spinner
+  Container, Col, Row,Image,Spinner,Card
 } from 'react-bootstrap';
 import '../LandingPage/LandingPage.css'
 import User from '../User'
+import { CardBody } from "react-bootstrap/Card";
 
 class LandingPage extends React.Component {
   constructor(props) {
@@ -179,8 +180,9 @@ class LandingPage extends React.Component {
          <Row className="justify-content-md-center">
            { 
             products.map(p=>(
-                
+               
                 <div className="products" key={p.product_id}>
+                   <Card><Card.Body>
                   <Link to={`/products/${p.product_id}`}>
                   <Row className="justify-content-md-center">
                  <Image className="product-image" src={`http://localhost:3002/${p.image}`} />
@@ -188,9 +190,8 @@ class LandingPage extends React.Component {
                   <Row className="justify-content-md-center">{p.name}</Row>
                   <Row className="justify-content-md-center">${p.price}</Row>
                   <Row className="justify-content-md-center"><Link to={`/${p.product_id}`}><Button variant="info">Buy Now</Button></Link></Row>
-                  
+                  </Card.Body></Card>
                 </div>
-                
             ))
           }
           
