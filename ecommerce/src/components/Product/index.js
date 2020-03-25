@@ -92,7 +92,7 @@ class Product extends React.Component {
                 <Container fluid>
                     <Row>
                         <Col md={4}>
-                            <Image className="product-img" src="https://thestore.pk/image/data/PSL/%5E27B55BDA5A8A2F5DAE03EDEC5574AAB5F58C19383084404102%5Epimgpsh_fullsize_distr.jpg" />
+                            <Image className="product-img" src={`http://localhost:3002/${product.image}`} />
                         </Col>
                         <Col>
                             <h2>{product.name}</h2>

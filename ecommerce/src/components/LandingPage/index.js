@@ -179,11 +179,11 @@ class LandingPage extends React.Component {
          <Row className="justify-content-md-center">
            { 
             products.map(p=>(
-              
+                
                 <div className="products" key={p.product_id}>
                   <Link to={`/products/${p.product_id}`}>
                   <Row className="justify-content-md-center">
-                 <Image className="product-image" src="https://thestore.pk/image/data/PSL/%5E27B55BDA5A8A2F5DAE03EDEC5574AAB5F58C19383084404102%5Epimgpsh_fullsize_distr.jpg" />
+                 <Image className="product-image" src={`http://localhost:3002/${p.image}`} />
                   </Row></Link>
                   <Row className="justify-content-md-center">{p.name}</Row>
                   <Row className="justify-content-md-center">${p.price}</Row>
