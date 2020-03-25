@@ -7,7 +7,6 @@ import {Button,Container, Col, Row,Image,Card, Spinner} from 'react-bootstrap';
 class AllProducts extends React.Component {
     constructor(props) {
       super(props);
-      this.state = {}
     }
 render()
 {
