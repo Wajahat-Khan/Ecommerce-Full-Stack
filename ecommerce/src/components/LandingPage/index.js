@@ -107,7 +107,7 @@ class LandingPage extends React.Component {
       )}
   
   return (
-    <div>
+    <div >
       <Navbar bg="dark" variant="dark" onSelect={this.categoryHandler}>
       <Link to='/'> <Navbar.Brand  >Full Stack Challenge</Navbar.Brand></Link>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -176,23 +176,37 @@ class LandingPage extends React.Component {
           <Col></Col>
         </Row>
         </Container>
-        <Container>
+        <Container fluid>
          <Row className="justify-content-md-center">
            { 
             products.map(p=>(
                
-                <div className="products" key={p.product_id}>
-                   <Card><Card.Body>
-                  <Link to={`/products/${p.product_id}`}>
-                  <Row className="justify-content-md-center">
+                // <div className="products" key={p.product_id}>
+                //    <Card><Card.Body>
+                //   <Link to={`/products/${p.product_id}`}>
+                //   <Row className="justify-content-md-center">
+                //  <Image className="product-image" src={`http://localhost:3002/${p.image}`} />
+                //   </Row></Link>
+                //   <Row className="justify-content-md-center">{p.name}</Row>
+                //   <Row className="justify-content-md-center">${p.price}</Row>
+                //   <Row className="justify-content-md-center"><Link to={`/${p.product_id}`}><Button variant="info">Buy Now</Button></Link></Row>
+                //   </Card.Body></Card>
+                // </div>
+                <Col md={2} sm={3} className="products">
+                 <Card key={p.product_id}><Card.Body>
+                 <Link to={`/products/${p.product_id}`}>
+                   <Row className="justify-content-md-center">
                  <Image className="product-image" src={`http://localhost:3002/${p.image}`} />
-                  </Row></Link>
-                  <Row className="justify-content-md-center">{p.name}</Row>
-                  <Row className="justify-content-md-center">${p.price}</Row>
-                  <Row className="justify-content-md-center"><Link to={`/${p.product_id}`}><Button variant="info">Buy Now</Button></Link></Row>
-                  </Card.Body></Card>
-                </div>
-            ))
+                   </Row></Link>
+                   <Row className="justify-content-md-center">{p.name}</Row>
+                <Row className="justify-content-md-center">${p.price}</Row>
+                <Row className="justify-content-md-center"><Link to={`/products/${p.product_id}`}><Button variant="info">Buy Now</Button></Link></Row>
+                 </Card.Body></Card>
+                </Col>
+            
+            
+            
+                ))
           }
           
           </Row>
