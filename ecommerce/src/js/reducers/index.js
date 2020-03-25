@@ -90,7 +90,7 @@ function rootReducer(state = initialState, action) {
     case ADD_ORDER_ITEM_REQUEST:
       return { ...state };
     case ADD_ORDER_ITEM_SUCCESS:
-      return {...state, order_id:undefined}      
+      return {...state, order_id:undefined,chart:[]}      
     case ADD_ORDER_ITEM_FAILURE:
       return { ...state };
 
