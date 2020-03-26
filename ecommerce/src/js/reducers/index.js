@@ -31,7 +31,7 @@ const initialState = {
   customer_name: undefined,
   order_id: undefined,
   chart: [],
-  modal: "false",
+  modal: false,
   signup: false,
   order_state: false
 };
@@ -47,7 +47,7 @@ function rootReducer(state = initialState, action) {
       return { ...state, errorMessage: 'Failed adding posts', error: true };
 
     case GET_PRODUCT_BY_ID_REQUEST:
-      return { ...state, product: null };
+      return { ...state, product: null, modal:false };
     case GET_PRODUCT_BY_ID_SUCCESS:
       return { ...state, product: action.payload };
     case GET_PRODUCT_BY_ID_FAILURE:

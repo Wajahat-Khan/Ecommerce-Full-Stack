@@ -154,8 +154,9 @@ class LandingPage extends React.Component {
         </div>
 
         <Paginations activePage={activePage} pagination={this.pagination} paginationNext={this.paginationNext} paginationPrevious={this.paginationPrevious} />
+        <div>
         <AllProducts />
-
+        </div>
       </div>
     )
   }
