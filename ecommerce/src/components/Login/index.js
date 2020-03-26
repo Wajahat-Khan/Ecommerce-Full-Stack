@@ -37,7 +37,7 @@ render(){
         <Link to='/'> <Navbar.Brand  >Full Stack Challenge</Navbar.Brand></Link>
         </Navbar>
         <Container>
-        <h1 class="display-4" style={{textAlign:"center"}}>SIGN IN</h1>
+        <h1 className="display-4" style={{textAlign:"center"}}>SIGN IN</h1>
         <Form>
         <Form.Group >
           <Form.Label>Email</Form.Label>

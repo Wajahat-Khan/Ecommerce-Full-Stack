@@ -1,17 +1,30 @@
 import {
-  GET_PRODUCTS_REQUEST, GET_CONFIGS_REQUEST, LOGIN_REQUEST,
+  GET_PRODUCTS_REQUEST, 
+  
+  GET_CONFIGS_REQUEST, 
+  
+  LOGIN_REQUEST,
+  
   GET_PRODUCT_BY_CATEGORY_REQUEST,
+  
   SEARCH_REQUEST,
+  
   GET_PRODUCT_BY_ID_REQUEST,
+  
   ADD_ORDER_REQUEST,
+  
   ADD_CART_REQUEST,
   UPDATE_CART_REQUEST,
+  
   OPEN_MODAL_REQUEST,
   CLOSE_MODAL_REQUEST,
+  
   SIGN_OUT_REQUEST,
   SIGN_UP_REQUEST,
+  
   ADD_ORDER_ITEM_REQUEST,
-  CLOSE_ORDER_COMPLETE_MODAL
+
+  CLOSE_ORDER_COMPLETE_MODAL_REQUEST
 } from "../constants/action-types";
 
 export function getProducts(payload) {
@@ -69,5 +82,5 @@ export function signUp(payload) {
 }
 
 export function closeOrderComplete(payload) {
-  return { type: CLOSE_ORDER_COMPLETE_MODAL, payload };
+  return { type: CLOSE_ORDER_COMPLETE_MODAL_REQUEST, payload };
 }

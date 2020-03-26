@@ -1,4 +1,4 @@
-import { call, takeEvery, put } from 'redux-saga/effects';
+import { call, takeEvery, put, select } from 'redux-saga/effects';
 import { GET_PRODUCTS_REQUEST,GET_PRODUCTS_SUCCESS,GET_PRODUCTS_FAILURE,
     GET_CONFIGS_REQUEST,GET_CONFIGS_SUCCESS,GET_CONFIGS_FAILURE,
     LOGIN_REQUEST,LOGIN_SUCCESS,LOGIN_FAILURE,
@@ -7,11 +7,14 @@ import { GET_PRODUCTS_REQUEST,GET_PRODUCTS_SUCCESS,GET_PRODUCTS_FAILURE,
     GET_PRODUCT_BY_ID_REQUEST,GET_PRODUCT_BY_ID_SUCCESS,GET_PRODUCT_BY_ID_FAILURE,
     ADD_ORDER_REQUEST,ADD_ORDER_SUCCESS,ADD_ORDER_FAILURE,
     SIGN_UP_REQUEST,SIGN_UP_SUCCESS,SIGN_UP_FAILURE,
-    ADD_ORDER_ITEM_REQUEST, ADD_ORDER_ITEM_SUCCESS, ADD_ORDER_ITEM_FAILURE
+    ADD_ORDER_ITEM_REQUEST, ADD_ORDER_ITEM_SUCCESS, ADD_ORDER_ITEM_FAILURE,
+    CLOSE_ORDER_COMPLETE_MODAL_REQUEST,CLOSE_ORDER_COMPLETE_MODAL_SUCCESS,CLOSE_ORDER_COMPLETE_MODAL_FAILURE
 } from '../constants/action-types';
 
     import API from '../../services';
 
+
+const getToken =  state => state.token;
 function* handleProductsSaga(action) {
     try {
         const products = yield call(API.getProducts, action.payload);
@@ -99,6 +102,17 @@ function* handleOrderItem(action) {
         yield put({type: ADD_ORDER_ITEM_FAILURE })
     }
 }
+
+function* handleDeleteOrder(action) {
+    try {
+        //const token=yield select(getToken);
+        const del = yield call(API.deleteOrder, action.payload);
+        yield put({type:CLOSE_ORDER_COMPLETE_MODAL_SUCCESS, payload: del})
+    }
+    catch (error) {
+        yield put({type: CLOSE_ORDER_COMPLETE_MODAL_FAILURE })
+    }
+}
 function* rootSaga() {
     yield takeEvery(GET_PRODUCTS_REQUEST, handleProductsSaga);
     yield takeEvery(GET_CONFIGS_REQUEST, handleConfigurations);
@@ -109,6 +123,7 @@ function* rootSaga() {
     yield takeEvery(ADD_ORDER_REQUEST, handleAddOrder);
     yield takeEvery(SIGN_UP_REQUEST, handleSignUp);
     yield takeEvery(ADD_ORDER_ITEM_REQUEST, handleOrderItem);
+    yield takeEvery(CLOSE_ORDER_COMPLETE_MODAL_REQUEST, handleDeleteOrder);
 }
 
 export default rootSaga;

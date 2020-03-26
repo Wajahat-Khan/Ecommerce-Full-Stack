@@ -108,6 +108,17 @@ const API = {
                 return Promise.reject(error);
             });
     },
+    deleteOrder : post =>{
+        let id = post.id;
+        return axios
+            .delete(constants.url + 'order/'+`${id}`)
+            .then(response => {
+                return Promise.resolve(response.data);
+            })
+            .catch(error => {
+                return Promise.reject(error);
+            });
+    },
     addOrderedItems : load => {
         let id = load.order_id;
         return axios

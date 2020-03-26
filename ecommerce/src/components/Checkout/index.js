@@ -2,7 +2,7 @@ import React from "react";
 import { withRouter, Link,Redirect } from "react-router-dom";
 import { connect } from 'react-redux';
 import '../Checkout/Checkout.css';
-import {Form,Button,Navbar, Container,Row, Col} from 'react-bootstrap';
+import {Form,Button,Navbar, Container,Row, Col, Modal} from 'react-bootstrap';
 
 import {addOrder,addOrderedItem,closeOrderComplete} from '../../js/actions';
 import OrderComplete from "../OrderComplete";
@@ -18,13 +18,11 @@ class Checkout extends React.Component {
       this.setState({ [event.target.id]: event.target.value });
     };
 
-    closeModal=e=>{
-      this.setState({modal:false})
-    }
+
    
     placeOrder=()=>{
   
-        const{login, chart, customer_id,order_id} = this.props;
+        const{chart, customer_id} = this.props;
         const{first_name,last_name,address,city,state,zip_code,region} = this.state;
         let total_price=0;
         let order_date=chart[0].order_date;
@@ -33,8 +31,6 @@ class Checkout extends React.Component {
         })
         total_price=total_price.toFixed(2)
         this.props.createOrder({customer_id,first_name,last_name,address,city,state,zip_code,region, order_date,total_price});
-
-        this.setState({modal:true}); 
   }
 
   sendOrderedItems = e =>{
@@ -47,15 +43,35 @@ class Checkout extends React.Component {
      let quantity=p.quantity;
      let total_price=p.total_price;
      this.props.addOrderedItem({order_id,product_id,size,color,quantity,total_price});
-     this.setState({modal:false});
+
    });
 }
 }
+deleteOrder=e=>{
+  const {order_id}=this.props;
+  this.props.closeOrderComplete({id:order_id});
+}
+
     render(){
         const {login, chart,order_state}=this.props;
        
-        if(login===false || chart.length === 0){
+        if(login===false){
             return(<Redirect to="/login" />)
+        }
+        if(chart.length === 0){
+          return(<Modal.Dialog>
+            <Modal.Header closeButton>
+              <Modal.Title>Empty Chart</Modal.Title>
+            </Modal.Header>
+          
+            <Modal.Body>
+              <p>Please add Items in Chart to proceed for checkout</p>
+            </Modal.Body>
+          
+            <Modal.Footer>
+              <Link to="/"><Button variant="secondary">OK</Button></Link>
+            </Modal.Footer>
+          </Modal.Dialog>)
         }
         return(
             <div>
@@ -64,7 +80,7 @@ class Checkout extends React.Component {
         <Link to='/'> <Navbar.Brand  >Full Stack Challenge</Navbar.Brand></Link>
         </Navbar>
 
-        <OrderComplete show={this.props.order_state} close={this.props.closeOrderComplete} ordered_items={this.sendOrderedItems} />
+        <OrderComplete show={order_state}  ordered_items={this.sendOrderedItems}  close={this.deleteOrder}/>
         
         <Container>
         <h1 class="display-4" style={{textAlign:"center"}}>CHECK OUT</h1>
@@ -152,7 +168,8 @@ class Checkout extends React.Component {
 const mapDispatchToProps = dispatch => {
   return {createOrder: payload => dispatch(addOrder(payload)),
     addOrderedItem: payload => dispatch(addOrderedItem(payload)),
-    closeOrderComplete:payload => dispatch(closeOrderComplete(payload))}
+    closeOrderComplete:payload => dispatch(closeOrderComplete(payload))
+   }
 }
 const mapStateToProps = state => {
     return { login: state.login, chart:state.chart, customer_id:state.customer_id, order_id:state.order_id,
