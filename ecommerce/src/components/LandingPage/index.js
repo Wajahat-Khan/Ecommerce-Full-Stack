@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { getConfigurations, getProducts, getProductsByCategory, searchProducts,openModal,closeModal,
   closeOrderSuccess } from '../../js/actions';
 import {
-  Navbar, Nav, Form, FormControl, Dropdown, DropdownButton, Pagination,
+  Navbar, Nav, Form, FormControl, Dropdown, DropdownButton, Spinner,
   Container,  Row, Button, Modal } from 'react-bootstrap';
 import '../LandingPage/LandingPage.css';
 
@@ -12,7 +12,7 @@ import User from '../User';
 import Chart from '../Chart';
 import AllProducts from '../AllProducts';
 import Paginations from '../Paginations';
-
+import Footer from '../Footer';
 class LandingPage extends React.Component {
   constructor(props) {
     super(props);
@@ -101,8 +101,9 @@ class LandingPage extends React.Component {
   render() {
     const { attributes,categories,modal,openModal,closeModal,closeOrderSuccess,order_success } = this.props;
     const { activePage } = this.state;
+  
     return (
-      <div >
+      <div className="major">
         <Navbar bg="dark" variant="dark" onSelect={this.categoryHandler}>
           <Link to='/'> <Navbar.Brand  >Full Stack Challenge</Navbar.Brand></Link>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -173,6 +174,7 @@ class LandingPage extends React.Component {
         <div>
         <AllProducts />
         </div>
+       <Footer />  
       </div>
     )
   }
