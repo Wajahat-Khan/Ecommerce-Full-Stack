@@ -86,8 +86,12 @@ const API = {
                 return Promise.reject(error);
             });
     },
-    addOrder: post=>{
-        console.log(post)
+    addOrder: (post,loginToken)=>{
+        let config = {
+            headers: {
+              Authorization: `Bearer ${loginToken}`
+            }
+          };
         return axios
             .post(constants.url + 'order',{
                 customer_id:post.customer_id,
@@ -100,7 +104,7 @@ const API = {
                 region:post.region, 
                 order_date:post.order_date, 
                 total_price:post.total_price
-            })
+            },config)
             .then(response => {
                 return Promise.resolve(response.data);
             })
@@ -108,10 +112,15 @@ const API = {
                 return Promise.reject(error);
             });
     },
-    deleteOrder : post =>{
+    deleteOrder : (post,loginToken) =>{
         let id = post.id;
+        let config = {
+            headers: {
+              Authorization: `Bearer ${loginToken}`
+            }
+          };
         return axios
-            .delete(constants.url + 'order/'+`${id}`)
+            .delete(constants.url + 'order/'+`${id}`,config)
             .then(response => {
                 return Promise.resolve(response.data);
             })
@@ -119,8 +128,13 @@ const API = {
                 return Promise.reject(error);
             });
     },
-    addOrderedItems : load => {
+    addOrderedItems : (load,loginToken) => {
         let id = load.order_id;
+        let config = {
+            headers: {
+              Authorization: `Bearer ${loginToken}`
+            }
+          };
         return axios
             .post(constants.url + 'order/'+`${id}`,{
                 order_id:load.order_id,
@@ -129,7 +143,7 @@ const API = {
                 color:load.color,
                 quantity:load.quantity,
                 total_price:load.total_price
-            })
+            },config)
             .then(response => {
                 return Promise.resolve(response.data);
             })

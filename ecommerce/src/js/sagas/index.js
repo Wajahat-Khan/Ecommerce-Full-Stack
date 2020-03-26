@@ -72,17 +72,6 @@ function* handleProductById(action) {
         yield put({type: GET_PRODUCT_BY_ID_FAILURE})
     }
 }
-
-function* handleAddOrder(action) {
-    try {
-        const order = yield call(API.addOrder, action.payload);
-        yield put({type:ADD_ORDER_SUCCESS , payload: order})
-    }
-    catch (error) {
-        yield put({type: ADD_ORDER_FAILURE})
-    }
-}
-
 function* handleSignUp(action) {
     try {
         const user = yield call(API.createUser, action.payload);
@@ -93,9 +82,22 @@ function* handleSignUp(action) {
     }
 }
 
-function* handleOrderItem(action) {
+function* handleAddOrder(action) {
+    const token=yield select(getToken);
     try {
-        const item = yield call(API.addOrderedItems, action.payload);
+        const order = yield call(API.addOrder, action.payload,token);
+        yield put({type:ADD_ORDER_SUCCESS , payload: order})
+    }
+    catch (error) {
+        yield put({type: ADD_ORDER_FAILURE})
+    }
+}
+
+
+function* handleOrderItem(action) {
+    const token=yield select(getToken);
+    try {
+        const item = yield call(API.addOrderedItems, action.payload,token);
         yield put({type:ADD_ORDER_ITEM_SUCCESS, payload: item})
     }
     catch (error) {
@@ -105,8 +107,8 @@ function* handleOrderItem(action) {
 
 function* handleDeleteOrder(action) {
     try {
-        //const token=yield select(getToken);
-        const del = yield call(API.deleteOrder, action.payload);
+        const token=yield select(getToken);
+        const del = yield call(API.deleteOrder, action.payload,token);
         yield put({type:CLOSE_ORDER_COMPLETE_MODAL_SUCCESS, payload: del})
     }
     catch (error) {
