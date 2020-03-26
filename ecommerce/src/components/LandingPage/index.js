@@ -1,13 +1,14 @@
 import React from "react";
 import { withRouter, Link} from "react-router-dom";
 import { connect } from 'react-redux';
-import { getConfigurations, getProducts, getProductsByCategory, searchProducts } from '../../js/actions';
+import { getConfigurations, getProducts, getProductsByCategory, searchProducts,openModal,closeModal } from '../../js/actions';
 import {
   Navbar, Nav, Form, FormControl, Dropdown, DropdownButton, Pagination,
-  Container,  Row } from 'react-bootstrap';
+  Container,  Row, Button } from 'react-bootstrap';
 import '../LandingPage/LandingPage.css';
 
 import User from '../User';
+import Chart from '../Chart';
 import AllProducts from '../AllProducts';
 import Paginations from '../Paginations';
 
@@ -97,7 +98,7 @@ class LandingPage extends React.Component {
 
 
   render() {
-    const { attributes,categories } = this.props;
+    const { attributes,categories,modal,openModal,closeModal } = this.props;
     const { activePage } = this.state;
     return (
       <div >
@@ -116,9 +117,11 @@ class LandingPage extends React.Component {
 
           </Navbar.Collapse>
           <Navbar.Collapse className="justify-content-end">
+          <Button className="chart-checkout" variant="outline-warning" className=" mr-sm-2" onClick={openModal}>Chart</Button>
             <User />
           </Navbar.Collapse>
         </Navbar>
+        <Chart show={modal} close={closeModal} />
         <br></br>
         <div className="filter-row">
           <Container fluid>
@@ -167,10 +170,12 @@ const mapDispatchToProps = dispatch => {
     getConfigurations: payload => dispatch(getConfigurations(payload)),
     getProducts: payload => dispatch(getProducts(payload)),
     getProductsByCategory: payload => dispatch(getProductsByCategory(payload)),
-    searchProducts: payload => dispatch(searchProducts(payload))
+    searchProducts: payload => dispatch(searchProducts(payload)),
+    closeModal: payload => dispatch(closeModal(payload)),
+    openModal: payload => dispatch(openModal(payload)),
   }
 }
 const mapStateToProps = state => {
-  return { categories: state.categories, attributes: state.attributes, attributes_values: state.attributes_values }
+  return { categories: state.categories, attributes: state.attributes, attributes_values: state.attributes_values,modal: state.modal }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(LandingPage))

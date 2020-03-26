@@ -70,11 +70,8 @@ class Product extends React.Component {
         this.props.addChart({ product_id, product, size, color, quantity, order_date, total_price });
     }
 
-    chart = e => {
-        this.props.openModal()
-    }
     render() {
-        const { product,modal,closeModal } = this.props;
+        const { product,modal,closeModal,openModal } = this.props;
         if (product == null) {
             return (
                 <div className="spin"><Spinner animation="grow" size="lg" /></div>
@@ -86,7 +83,7 @@ class Product extends React.Component {
                     <Link to='/'> <Navbar.Brand  >Full Stack Challenge</Navbar.Brand></Link>
                     <Nav className="navbar-nav navbar-center">
                         <Link to="/"><Button variant="outline-danger" className=" mr-sm-2"  >Home</Button></Link>
-                        <Button className="chart-checkout" variant="outline-warning" className=" mr-sm-2" onClick={this.chart}>Chart</Button>
+                        <Button className="chart-checkout" variant="outline-warning" className=" mr-sm-2" onClick={openModal}>Chart</Button>
                         <Link to="/checkout"><Button className="chart-checkout" variant="outline-danger" >Checkout</Button></Link>
                     </Nav>
                     <Navbar.Collapse className="justify-content-end">
