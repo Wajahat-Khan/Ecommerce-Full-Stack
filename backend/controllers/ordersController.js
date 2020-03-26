@@ -15,4 +15,13 @@ addOrderedProducts = async (order_id, product_id, size, color, quantity,total_pr
     return order;
 }
 
-module.exports = { createOrder, addOrderedProducts }
+
+deleteOrder= async (order_id)=>{
+    const del = await orders.destroy({
+        where: {
+          order_id: parseInt(order_id)
+        }
+      });
+}
+
+module.exports = { createOrder, addOrderedProducts,deleteOrder }

@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 const { allProducts, prodAttributes, sort, filter, productById, filteredProds } = require('../controllers/productsController')
-const { checkToken } = require('../middlewares/authMiddleware');
+
 
 // all products with paginations, filtering and sorting
 router.get('/', async (req, res) => {
