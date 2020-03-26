@@ -19,23 +19,14 @@ height: 100%;
     text-align: left;
     
 }
-
-table {
-    font-family: arial, sans-serif;
-    border-collapse: collapse;
-    width: 100%;
-    overflow: hidden;
-  }
-  
-   th {
-    border: 1px solid #dddddd;
-    text-align: left;
-    padding: 8px;
-  }
-  td{
-    border: 1px solid #dddddd;
-    text-align: center;
- 
-    padding: 8px;
-  }
+.center{
+    text-align: center !important;
+    align-items: center !important;
+}
+.qa{
+    margin-left: 30%;
+}
+.prod{
+    margin-bottom: 2%;
+}
  

@@ -1,5 +1,5 @@
 import React from "react";
-import { Modal, Button, Row, Col, Image } from 'react-bootstrap';
+import { Modal, Button, Row, Col, Image} from 'react-bootstrap';
 import { withRouter, Link } from "react-router-dom";
 import { connect } from 'react-redux';
 import '../Chart/Chart.css'
@@ -14,7 +14,7 @@ class Chart extends React.Component {
         return (
             <Modal
                 size="lg"
-                {...this.props}
+                show={this.props.modal}
                 dialogClassName="modal-90w"
                 aria-labelledby="contained-modal-title-vcenter"
                 centered
@@ -39,7 +39,7 @@ class Chart extends React.Component {
         let index=parseInt(e.target.id);
         chart[index].quantity+=1;
         chart[index].total_price=(chart[index].quantity * chart[index].product.price).toFixed(2)
-        this.props.updateChart(chart);
+        this.props.updatechart(chart);
         this.forceUpdate();
     }
     decrease = e =>{
@@ -48,7 +48,7 @@ class Chart extends React.Component {
         if(chart[index].quantity>1){
         chart[index].quantity-=1;
         chart[index].total_price=(chart[index].quantity * chart[index].product.price).toFixed(2)
-        this.props.updateChart(chart);
+        this.props.updatechart(chart);
         this.forceUpdate();
         }
     }
@@ -59,17 +59,17 @@ class Chart extends React.Component {
         const {chart}=this.props;
         let index=parseInt(e.target.id);
        chart.splice(index,1);
-        this.props.updateChart(chart);
+        this.props.updatechart(chart);
         this.forceUpdate();
     }
     render() {
-        const { chart } = this.props;
+        const { chart} = this.props;
         if (chart.length === 0) {
             return this.emptyChart();
         } else {
             return (
                 <Modal
-                    {...this.props}
+                   show={this.props.modal}
                     dialogClassName="modal-90w"
                     aria-labelledby="contained-modal-title-vcenter"
                     centered
@@ -80,60 +80,50 @@ class Chart extends React.Component {
                 </Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        <table>
-                            <col width="150"></col>
-                            <col width="20"></col>
-                            <col width="20"></col>
-                            <col width="100"></col>
-                            <col width="20"></col>
-                            <tr>
-                                <th>Item</th>
-                                <th>Size</th>
-                                <th>Color</th>
-                                <th>Quantity</th>
-                                <th>Price</th>
-                            </tr>
+                        
+                        <Row style={{border:"1px solid black", marginBottom:"1%"}} className="center">
+                            <Col md={3}><h2>Item</h2></Col>
+                            <Col md={2}><h2>Size</h2></Col>
+                            <Col md={2}><h2>Color</h2></Col>
+                            <Col md={3}><h2>Quantity</h2></Col>
+                            <Col md={1}><h2>Price</h2></Col>
+                        </Row>
                             {
                                 chart.map((ch,i)=>(
-                                    
-                                    <tr key={ch.product_id}>
-                                       
-                                        <td key={ch.product.name}>
-                                        <Row>
-                                        <Col md={3}>
-                                        <Image className="chart-img" src={`http://localhost:3002/${ch.product.image}`} />
-                                        </Col>
-                                        <Col className="prod-details">
-                                         <h2 style={{marginLeft:"2%"}}>{ch.product.name}</h2>
-                                         <Button variant="outline-danger" id={i} className="options" onClick={this.removeProduct}>Remove</Button>
-                                         </Col>
-                                         
+                                    <Row className="center prod" key={ch.product_id}>
+                                    <Col md={3}>
+                                        <Row >
+                                            <Col md={4}>
+                                            <Image className="chart-img" src={`http://localhost:3002/${ch.product.image}`} />
+                                            </Col>
+                                            <Col md={8}>
+                                            <h3 style={{marginLeft:"2%"}}>{ch.product.name}</h3>
+                                            <Button variant="outline-danger" id={i} className="options" onClick={this.removeProduct}>Remove</Button>   
+                                            </Col>
                                         </Row>
-                                        </td>
-
-                                        <td key={ch.size}>
-                                        <h2 >{ch.size}</h2>
-                                        </td>
-                                        
-                                        <td key={ch.color}>
-                                        <h2 >{ch.color}</h2>
-                                        </td>
-
-                                        <td className="chart-q" key={i}> 
-                                        <div className="input-group">
-                                    <input type="button" id={i} value="-" className="button-minus" data-field="quantity" onClick={this.decrease} />
-                                    <input type="number" id={i} step="1" value={ch.quantity} name="quantity" className="quantity-field" onChange={this.quantityInput}/>
-                                    <input type="button" id={i} value="+" className="button-plus" data-field="quantity"  onClick={this.increase}/>
-                                </div>
-                                        </td>
-                                        <td key={ch.total_price}>
-                                        <h2 >{ch.total_price}</h2>
-                                        </td>
-                                    </tr>
+                                    </Col>
+                                    <Col md={2} >
+                                            <h3 >{ch.size}</h3>
+                                    </Col>
+                                    <Col md={2}>
+                                            <h3 >{ch.color}</h3>
+                                    </Col>
+                                    <Col md={3}>
+                                        <div className="center">
+                                        <div className="input-group qa">
+                                        <input type="button" id={i} value="-" className="button-minus qa" data-field="quantity" onClick={this.decrease} />
+                                        <input type="number" id={i} step="1" value={ch.quantity} name="quantity" className="quantity-field" onChange={this.quantityInput}/>
+                                        <input type="button" id={i} value="+" className="button-plus" data-field="quantity"  onClick={this.increase}/>
+                                        </div>
+                                        </div>
+                                    </Col>
+                                    <Col >
+                                    <h3 className="center">{ch.total_price}</h3>
+                                    </Col>
+                                    </Row>
                                 ))
                             }
-                           
-                        </table>
+                     
                     </Modal.Body>
                     <Modal.Footer>
                         
@@ -148,7 +138,7 @@ class Chart extends React.Component {
 }
 const mapDispatchToProps = dispatch => {
     return {
-        updateChart: payload => dispatch(updateChart(payload)),
+        updatechart: payload => dispatch(updateChart(payload)),
         
     }
 }

@@ -7,7 +7,7 @@ import '../Product/Product.css';
 import { Navbar, Nav, Container, Row, Image, Col, Spinner, Button, Modal } from 'react-bootstrap'
 import { addChart, openModal, closeModal } from '../../js/actions/index';
 import Chart from '../Chart';
-import User from '../User'
+import User from '../User';
 
 class Product extends React.Component {
     constructor(props) {
@@ -22,13 +22,13 @@ class Product extends React.Component {
         this.props.getProductById(this.props.match.params.id);
     }
     colorFiltration = (obj) => {
-        if (obj.attribute_value.attribute_id == 2)
+        if (obj.attribute_value.attribute_id === 2)
             return (<Button id={obj.attribute_value.value} key={obj.attribute_value_id} style={{ backgroundColor: `${obj.attribute_value.value}` }} className="options" onClick={this.colorHandle}></Button>)
         return;
 
     }
     sizeFilteration = (obj) => {
-        if (obj.attribute_value.attribute_id == 1)
+        if (obj.attribute_value.attribute_id === 1)
             return (<Button id={obj.attribute_value.value} key={obj.attribute_value_id} variant="outline-secondary" className="options" onClick={this.sizeHandle}>{obj.attribute_value.value}</Button>)
         return;
 
@@ -74,13 +74,12 @@ class Product extends React.Component {
         this.props.openModal()
     }
     render() {
-        const { product } = this.props;
+        const { product,modal,closeModal } = this.props;
         if (product == null) {
             return (
                 <div className="spin"><Spinner animation="grow" size="lg" /></div>
             )
         }
-
         return (
             <div>
                 <Navbar bg="dark" variant="dark" className="nav">
@@ -94,7 +93,7 @@ class Product extends React.Component {
                         <User />
                     </Navbar.Collapse>
                 </Navbar>
-                <Chart show={this.props.modal} close={this.props.closeModal} />
+                <Chart show={modal} close={closeModal} />
 
                 <Container fluid>
                     <Row>

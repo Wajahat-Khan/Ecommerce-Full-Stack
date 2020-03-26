@@ -106,7 +106,7 @@ function rootReducer(state = initialState, action) {
       return { ...state, chart: action.payload, modal: true };
 
     case OPEN_MODAL_REQUEST:
-      return { ...state, modal: "true"};
+      return { ...state, modal: true};
 
     case CLOSE_MODAL_REQUEST:
       return { ...state, modal: false };

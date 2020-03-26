@@ -13,9 +13,7 @@ import Product from '../src/components/Product'
 import Checkout from '../src/components/Checkout';
 
 class App extends React.Component {
-  constructor(props) {
-    super(props);
-  }
+ 
   render() {
     return (
       <Provider store={store}>
