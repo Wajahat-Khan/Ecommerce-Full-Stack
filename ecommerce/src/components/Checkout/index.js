@@ -83,7 +83,7 @@ deleteOrder=e=>{
         <OrderComplete show={order_state}  ordered_items={this.sendOrderedItems}  close={this.deleteOrder}/>
         
         <Container>
-        <h1 class="display-4" style={{textAlign:"center"}}>CHECK OUT</h1>
+        <h1 className="display-4" style={{textAlign:"center"}}>CHECK OUT</h1>
        
         <Form>
         <Row>

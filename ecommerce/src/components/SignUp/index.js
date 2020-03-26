@@ -40,7 +40,7 @@ render(){
         <Link to='/'> <Navbar.Brand  >Full Stack Challenge</Navbar.Brand></Link>
         </Navbar>
         <Container>
-        <h1 class="display-4" style={{textAlign:"center"}}>SIGN UP</h1>
+        <h1 className="display-4" style={{textAlign:"center"}}>SIGN UP</h1>
         <Form>
         <Form.Group >
           <Form.Label>Full Name</Form.Label>

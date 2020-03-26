@@ -13,7 +13,8 @@ import {
   SIGN_OUT_REQUEST,
   SIGN_UP_REQUEST, SIGN_UP_SUCCESS, SIGN_UP_FAILURE,
   ADD_ORDER_ITEM_REQUEST, ADD_ORDER_ITEM_SUCCESS, ADD_ORDER_ITEM_FAILURE,
-  CLOSE_ORDER_COMPLETE_MODAL_REQUEST,CLOSE_ORDER_COMPLETE_MODAL_SUCCESS,CLOSE_ORDER_COMPLETE_MODAL_FAILURE
+  CLOSE_ORDER_COMPLETE_MODAL_REQUEST,CLOSE_ORDER_COMPLETE_MODAL_SUCCESS,CLOSE_ORDER_COMPLETE_MODAL_FAILURE,
+  CLOSE_ORDER_SUCCESS_MODAL
 
 } from '../constants/action-types';
 
@@ -34,7 +35,8 @@ const initialState = {
   chart: [],
   modal: false,
   signup: false,
-  order_state: false
+  order_state: false,
+  order_success:false
 };
 
 function rootReducer(state = initialState, action) {
@@ -105,7 +107,7 @@ function rootReducer(state = initialState, action) {
     case ADD_ORDER_ITEM_REQUEST:
       return { ...state };
     case ADD_ORDER_ITEM_SUCCESS:{
-      return {...state, order_state:false,order_id:undefined,chart:state.chart.filter((i,index)=>i.product_id != action.payload.product_id)} 
+      return {...state, order_success:true,order_state:false,order_id:undefined,chart:state.chart.filter((i,index)=>i.product_id != action.payload.product_id)} 
     }     
     case ADD_ORDER_ITEM_FAILURE:
       return { ...state };
@@ -152,6 +154,11 @@ function rootReducer(state = initialState, action) {
       return { ...state, order_id:undefined, order_state:false };
     case CLOSE_ORDER_COMPLETE_MODAL_FAILURE:
       return { ...state, };
+    
+    case CLOSE_ORDER_SUCCESS_MODAL:
+      return {...state, order_success:false}
+    
+    
     default:
       return state;
   }

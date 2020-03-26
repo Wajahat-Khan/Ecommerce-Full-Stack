@@ -1,10 +1,11 @@
 import React from "react";
 import { withRouter, Link} from "react-router-dom";
 import { connect } from 'react-redux';
-import { getConfigurations, getProducts, getProductsByCategory, searchProducts,openModal,closeModal } from '../../js/actions';
+import { getConfigurations, getProducts, getProductsByCategory, searchProducts,openModal,closeModal,
+  closeOrderSuccess } from '../../js/actions';
 import {
   Navbar, Nav, Form, FormControl, Dropdown, DropdownButton, Pagination,
-  Container,  Row, Button } from 'react-bootstrap';
+  Container,  Row, Button, Modal } from 'react-bootstrap';
 import '../LandingPage/LandingPage.css';
 
 import User from '../User';
@@ -98,7 +99,7 @@ class LandingPage extends React.Component {
 
 
   render() {
-    const { attributes,categories,modal,openModal,closeModal } = this.props;
+    const { attributes,categories,modal,openModal,closeModal,closeOrderSuccess,order_success } = this.props;
     const { activePage } = this.state;
     return (
       <div >
@@ -122,6 +123,18 @@ class LandingPage extends React.Component {
           </Navbar.Collapse>
         </Navbar>
         <Chart show={modal} close={closeModal} />
+        <Modal show={order_success} onHide={closeOrderSuccess}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Congratulations!!!</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>Your Order has been placed Successfully</Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={closeOrderSuccess}>
+                            OK
+                        </Button>
+
+                    </Modal.Footer>
+                </Modal>
         <br></br>
         <div className="filter-row">
           <Container fluid>
@@ -173,9 +186,10 @@ const mapDispatchToProps = dispatch => {
     searchProducts: payload => dispatch(searchProducts(payload)),
     closeModal: payload => dispatch(closeModal(payload)),
     openModal: payload => dispatch(openModal(payload)),
+    closeOrderSuccess:payload => dispatch(closeOrderSuccess(payload))
   }
 }
 const mapStateToProps = state => {
-  return { categories: state.categories, attributes: state.attributes, attributes_values: state.attributes_values,modal: state.modal }
+  return { categories: state.categories, attributes: state.attributes, attributes_values: state.attributes_values,modal: state.modal, order_success:state.order_success }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(LandingPage))
