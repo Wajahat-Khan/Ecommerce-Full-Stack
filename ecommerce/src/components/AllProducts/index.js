@@ -2,7 +2,7 @@ import React from "react";
 import { withRouter,Link, Redirect } from "react-router-dom";
 import { connect } from 'react-redux';
 import {Button,Container, Col, Row,Image,Card, Spinner} from 'react-bootstrap';
-
+import Footer from '../Footer';
 
 class AllProducts extends React.Component {
     constructor(props) {
@@ -17,6 +17,7 @@ render()
           )}
       
     return(
+      <div>
         <Container fluid>
         <Row className="justify-content-md-center">
           { 
@@ -37,7 +38,8 @@ render()
          
          </Row>
        </Container>
-
+       <Footer />
+       </div>
     )
 }
 

@@ -12,7 +12,8 @@ import User from '../User';
 import Chart from '../Chart';
 import AllProducts from '../AllProducts';
 import Paginations from '../Paginations';
-import Footer from '../Footer';
+import Error from '../Error';
+
 class LandingPage extends React.Component {
   constructor(props) {
     super(props);
@@ -99,7 +100,7 @@ class LandingPage extends React.Component {
 
 
   render() {
-    const { attributes,categories,modal,openModal,closeModal,closeOrderSuccess,order_success } = this.props;
+    const { attributes,categories,modal,openModal,closeModal,closeOrderSuccess,order_success,error } = this.props;
     const { activePage } = this.state;
   
     return (
@@ -124,6 +125,7 @@ class LandingPage extends React.Component {
           </Navbar.Collapse>
         </Navbar>
         <Chart show={modal} close={closeModal} />
+        <Error show={error}/>
         <Modal show={order_success} onHide={closeOrderSuccess}>
                     <Modal.Header closeButton>
                         <Modal.Title>Congratulations!!!</Modal.Title>
@@ -174,7 +176,7 @@ class LandingPage extends React.Component {
         <div>
         <AllProducts />
         </div>
-       <Footer />  
+    
       </div>
     )
   }
@@ -192,6 +194,6 @@ const mapDispatchToProps = dispatch => {
   }
 }
 const mapStateToProps = state => {
-  return { categories: state.categories, attributes: state.attributes, attributes_values: state.attributes_values,modal: state.modal, order_success:state.order_success }
+  return { categories: state.categories, attributes: state.attributes, attributes_values: state.attributes_values,modal: state.modal, order_success:state.order_success, error:state.error }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(LandingPage))

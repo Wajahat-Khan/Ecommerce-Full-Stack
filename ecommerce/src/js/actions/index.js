@@ -26,7 +26,9 @@ import {
 
   CLOSE_ORDER_COMPLETE_MODAL_REQUEST,
 
-  CLOSE_ORDER_SUCCESS_MODAL
+  CLOSE_ORDER_SUCCESS_MODAL,
+
+  CLOSE_ERROR
 } from "../constants/action-types";
 
 export function getProducts(payload) {
@@ -90,3 +92,8 @@ export function closeOrderComplete(payload) {
 export function closeOrderSuccess(payload) {
   return { type: CLOSE_ORDER_SUCCESS_MODAL, payload };
 }
+
+export function closeErrorModal(payload) {
+  return { type: CLOSE_ERROR, payload };
+}
+
